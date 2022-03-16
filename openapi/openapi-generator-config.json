@@ -1,0 +1,12 @@
+{
+  "library": "native",
+  "dateLibrary": "java8",
+  "modelPackage": "com.gradle.enterprise.api.model",
+  "apiPackage": "com.gradle.enterprise.api",
+  "invokerPackage": "com.gradle.enterprise.api.client",
+  "hideGenerationTimestamp": true,
+  "openApiNullable": false,
+  "useBeanValidation": false,
+  "additionalModelTypeAnnotations": "@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)",
+  "templateDir": "openApi"
+}
