@@ -48,7 +48,7 @@ swaggerSources.configureEach {
         add(sourceSet.apiConfigurationName, "io.swagger:swagger-annotations:1.6.5")
         add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2")
         add(sourceSet.implementationConfigurationName, "javax.annotation:javax.annotation-api:1.3.2")
-        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.core:jackson-databind:2.13.2")
+        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.core:jackson-databind:2.13.2.1")
         add(sourceSet.implementationConfigurationName, "javax.validation:validation-api:2.0.1.Final")
         add(sourceSet.implementationConfigurationName, "com.google.code.findbugs:jsr305:3.0.2")
     }
