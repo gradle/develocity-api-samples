@@ -45,7 +45,7 @@ swaggerSources.configureEach {
     }
 
     dependencies {
-        add(sourceSet.apiConfigurationName, "io.swagger:swagger-annotations:1.6.5")
+        add(sourceSet.apiConfigurationName, "io.swagger:swagger-annotations:1.6.6")
         add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2")
         add(sourceSet.implementationConfigurationName, "javax.annotation:javax.annotation-api:1.3.2")
         add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.core:jackson-databind:2.13.2.2")
