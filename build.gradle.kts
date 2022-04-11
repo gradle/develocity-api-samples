@@ -8,12 +8,6 @@ plugins {
     application
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-}
-
 val gradleEnterpriseVersion = "2022.1" // Must be later than 2022.1
 val baseApiUrl = "https://docs.gradle.com/enterprise/api-manual/ref/"
 
@@ -101,5 +95,11 @@ dependencies {
         capabilities {
             requireCapability("com.gradle.enterprise.api:${project.name}-model")
         }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
