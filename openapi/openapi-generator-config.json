@@ -8,5 +8,5 @@
   "openApiNullable": false,
   "useBeanValidation": false,
   "additionalModelTypeAnnotations": "@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)",
-  "templateDir": "openApi"
+  "templateDir": "openapi"
 }
