@@ -9,13 +9,13 @@ plugins {
 }
 
 val gradleEnterpriseVersion = "2022.2" // Must be later than 2022.1
-val baseApiUrl = "https://docs.gradle.com/enterprise/api-manual/ref/"
+val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/enterprise/api-manual/ref/")
 
 val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificationFile")
 val apiSpecificationFile = apiSpecificationFileGradleProperty
     .map { s -> file(s) }
     .orElse(objects.property(File::class)
-        .convention(provider { resources.text.fromUri("${baseApiUrl}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile() }))
+        .convention(provider { resources.text.fromUri("${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile() }))
 
 application {
     mainClass.set("com.gradle.enterprise.api.SampleMain")
