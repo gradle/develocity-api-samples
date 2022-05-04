@@ -23,7 +23,7 @@ public final class BuildsProcessor {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            var query = new BuildsQuery();
+            BuildsQuery query = new BuildsQuery();
             sinceApplicator.accept(query);
             List<Build> builds = api.getBuilds(query);
 

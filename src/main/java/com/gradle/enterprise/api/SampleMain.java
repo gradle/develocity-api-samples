@@ -5,8 +5,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Callable;
@@ -58,13 +58,13 @@ public final class SampleMain implements Callable<Integer> {
             ? this.serverUrl.substring(0, this.serverUrl.length() - 1)
             : this.serverUrl;
 
-        String accessKey = Files.readString(Paths.get(accessKeyFile)).trim();
+        BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
+        String accessKey = reader.readLine();
+        reader.close();
 
-        String projectName = this.projectName == null || this.projectName.isBlank()
-            ? null
-            : this.projectName;
+        String projectName = this.projectName == null || this.projectName.trim().isEmpty() ? null : this.projectName;
 
-        var apiClient = new ApiClient();
+        ApiClient apiClient = new ApiClient();
         apiClient.updateBaseUri(serverUrl);
         apiClient.setRequestInterceptor(request -> request.setHeader("Authorization", "Bearer " + accessKey));
 

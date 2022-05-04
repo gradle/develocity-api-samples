@@ -1,5 +1,5 @@
 {
-  "library": "native",
+  "library": "apache-httpclient",
   "dateLibrary": "java8",
   "modelPackage": "com.gradle.enterprise.api.model",
   "apiPackage": "com.gradle.enterprise.api",

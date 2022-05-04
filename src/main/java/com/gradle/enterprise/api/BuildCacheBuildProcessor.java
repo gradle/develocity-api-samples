@@ -7,19 +7,21 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URI;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 public final class BuildCacheBuildProcessor implements BuildProcessor {
 
-    private static final Set<GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum> GRADLE_CACHE_HIT_TYPES = Set.of(
-        GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_LOCAL_CACHE,
-        GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE
-    );
+    private static final Set<GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum> GRADLE_CACHE_HIT_TYPES = new HashSet<>();
 
-    private static final Set<MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum> MAVEN_CACHE_HIT_TYPES = Set.of(
-        MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_LOCAL_CACHE,
-        MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE
-    );
+    private static final Set<MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum> MAVEN_CACHE_HIT_TYPES = new HashSet<>();
+
+    static {
+        GRADLE_CACHE_HIT_TYPES.add(GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_LOCAL_CACHE);
+        GRADLE_CACHE_HIT_TYPES.add(GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE);
+        MAVEN_CACHE_HIT_TYPES.add(MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_LOCAL_CACHE);
+        MAVEN_CACHE_HIT_TYPES.add(MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE);
+    }
 
     private final GradleEnterpriseApi api;
     private final String serverUrl;
@@ -45,9 +47,9 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private void processMavenBuild(Build build) throws ApiException {
-        var attributes = api.getMavenAttributes(build.getId(), new BuildQuery());
+        MavenAttributes attributes = api.getMavenAttributes(build.getId(), new BuildQuery());
         if (projectName == null || projectName.equals(attributes.getTopLevelProjectName())) {
-            var model = api.getMavenBuildCachePerformance(build.getId(), new BuildQuery());
+            MavenBuildCachePerformance model = api.getMavenBuildCachePerformance(build.getId(), new BuildQuery());
             reportBuild(
                 build,
                 computeCacheHitPercentage(model),
@@ -60,9 +62,9 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private void processGradleBuild(Build build) throws ApiException {
-        var attributes = api.getGradleAttributes(build.getId(), new BuildQuery());
+        GradleAttributes attributes = api.getGradleAttributes(build.getId(), new BuildQuery());
         if (projectName == null || projectName.equals(attributes.getRootProjectName())) {
-            var model = api.getGradleBuildCachePerformance(build.getId(), new BuildQuery());
+            GradleBuildCachePerformance model = api.getGradleBuildCachePerformance(build.getId(), new BuildQuery());
             reportBuild(
                 build,
                 computeCacheHitPercentage(model),

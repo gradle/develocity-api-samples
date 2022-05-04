@@ -15,7 +15,10 @@ val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificat
 val apiSpecificationFile = apiSpecificationFileGradleProperty
     .map { s -> file(s) }
     .orElse(objects.property(File::class)
-        .convention(provider { resources.text.fromUri("${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile() }))
+        .convention(provider {
+            resources.text.fromUri("${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile()
+        })
+    )
 
 application {
     mainClass.set("com.gradle.enterprise.api.SampleMain")
@@ -78,6 +81,7 @@ repositories {
 dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.2")
     implementation("info.picocli:picocli:4.6.3")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation(project(project.path)) {
         capabilities {
             requireCapability("com.gradle.enterprise.api:${project.name}-model")
@@ -100,6 +104,6 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
