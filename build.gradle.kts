@@ -89,7 +89,7 @@ dependencies {
         }
     }
 
-    add("swaggerCodegen", "org.openapitools:openapi-generator-cli:5.4.0")
+    add("swaggerCodegen", "org.openapitools:openapi-generator-cli:6.0.0")
 
     add(sourceSets[client.get().name].implementationConfigurationName, project(":") as ModuleDependency) {
         capabilities {
