@@ -23,10 +23,6 @@ application {
 
 swaggerSources.configureEach {
     code.apply {
-        inputs.file("openapi/api.mustache")
-            .withPropertyName("template")
-            .withPathSensitivity(PathSensitivity.NONE)
-
         language = "java"
         inputFile = apiSpecificationFile.get()
         configFile = file("openapi/openapi-generator-config.json")
