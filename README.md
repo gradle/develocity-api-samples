@@ -45,16 +45,6 @@ To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
 The sample code can be found [here](https://github.com/gradle/gradle-enterprise-api-samples/blob/main/src/main/java/com/gradle/enterprise/api).
 
-## About the code generation
-
-This sample uses [`openapi-generator`](https://openapi-generator.tech) `5.4.0` to generate client code from the Gradle Enterprise API specification.
-This version has [a bug that causes incorrect client code to be generated](https://github.com/OpenAPITools/openapi-generator/issues/4808).
-
-To work around this issue, this sample [customizes the generator](openApi/openapi-generator-config.json) to use a [custom template](openApi/api.mustache) for code generation.
-
-This [has been fixed](https://github.com/OpenAPITools/openapi-generator/pull/11682) for an upcoming release.
-Once the fix is released, this sample will be updated and the workaround removed.
-
 ## Further documentation
 
 The Gradle Enterprise API manual and reference documentation for each version of the API can be found [here](https://docs.gradle.com/enterprise/api-manual).

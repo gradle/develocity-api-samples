@@ -23,10 +23,6 @@ application {
 
 swaggerSources.configureEach {
     code.apply {
-        inputs.file("openapi/api.mustache")
-            .withPropertyName("template")
-            .withPathSensitivity(PathSensitivity.NONE)
-
         language = "java"
         inputFile = apiSpecificationFile.get()
         configFile = file("openapi/openapi-generator-config.json")
@@ -89,7 +85,7 @@ dependencies {
         }
     }
 
-    add("swaggerCodegen", "org.openapitools:openapi-generator-cli:5.4.0")
+    add("swaggerCodegen", "org.openapitools:openapi-generator-cli:6.0.0")
 
     add(sourceSets[client.get().name].implementationConfigurationName, project(":") as ModuleDependency) {
         capabilities {
