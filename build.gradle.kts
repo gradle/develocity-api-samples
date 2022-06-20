@@ -8,7 +8,7 @@ plugins {
     application
 }
 
-val gradleEnterpriseVersion = "2022.2" // Must be later than 2022.1
+val gradleEnterpriseVersion = "2022.2.4" // Must be later than 2022.1
 val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/enterprise/api-manual/ref/")
 
 val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificationFile")
@@ -26,10 +26,6 @@ application {
 
 swaggerSources.configureEach {
     code.apply {
-        inputs.file("openapi/api.mustache")
-            .withPropertyName("template")
-            .withPathSensitivity(PathSensitivity.NONE)
-
         language = "java"
         inputFile = apiSpecificationFile.get()
         configFile = file("openapi/openapi-generator-config.json")
@@ -49,7 +45,7 @@ swaggerSources.configureEach {
 
     dependencies {
         add(sourceSet.apiConfigurationName, "io.swagger:swagger-annotations:1.6.6")
-        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2")
+        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
         add(sourceSet.implementationConfigurationName, "javax.annotation:javax.annotation-api:1.3.2")
         add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.core:jackson-databind:2.13.2.2")
         add(sourceSet.implementationConfigurationName, "javax.validation:validation-api:2.0.1.Final")
@@ -93,7 +89,7 @@ dependencies {
         }
     }
 
-    add("swaggerCodegen", "org.openapitools:openapi-generator-cli:5.4.0")
+    add("swaggerCodegen", "org.openapitools:openapi-generator-cli:6.0.0")
 
     add(sourceSets[client.get().name].implementationConfigurationName, project(":") as ModuleDependency) {
         capabilities {
