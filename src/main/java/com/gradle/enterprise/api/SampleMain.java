@@ -51,7 +51,7 @@ public final class SampleMain implements Callable<Integer> {
 
     @Option(
         names = "--max-builds",
-        description = "The maximum number of builds to return by single query. The number may be lower if --max-wait-secs is reached (default: ${DEFAULT-VALUE})",
+        description = "The maximum number of builds to return by a single query. The number may be lower if --max-wait-secs is reached (default: ${DEFAULT-VALUE})",
         defaultValue = "100",
         order = 3
     )
@@ -59,7 +59,7 @@ public final class SampleMain implements Callable<Integer> {
 
     @Option(
         names = "--max-wait-secs",
-        description = "The maximum number of seconds to wait until builds query returns. If this time is reached before --max-builds is reached, the query returns with already processed builds (default: ${DEFAULT-VALUE})",
+        description = "The maximum number of seconds to wait until a query returns. If the query returns before --max-builds is reached, it returns with already processed builds (default: ${DEFAULT-VALUE})",
         defaultValue = "3",
         order = 4
     )
