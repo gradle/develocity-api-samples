@@ -5,22 +5,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.ApiProblem;
 
+import java.io.UncheckedIOException;
 import java.util.Optional;
 
 public final class ApiProblemParser {
 
-    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String CONTENT_TYPE = "application/problem+json";
 
-    public static Optional<ApiProblem> maybeParse(ApiException apiException) {
+    public static Optional<ApiProblem> maybeParse(final ApiException apiException, final ObjectMapper objectMapper) {
         return apiException.getResponseHeaders()
-            .firstValue("content-type")
-            .filter(v -> v.startsWith(CONTENT_TYPE))
+            .get("content-type")
+            .stream()
+            .findFirst()
+            .filter(headerValue -> headerValue.startsWith(CONTENT_TYPE))
             .map(__ -> {
                 try {
-                    return OBJECT_MAPPER.readValue(apiException.getResponseBody(), ApiProblem.class);
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
+                    return objectMapper.readValue(apiException.getResponseBody(), ApiProblem.class);
+                } catch (final JsonProcessingException e) {
+                    throw new UncheckedIOException(e);
                 }
             });
     }

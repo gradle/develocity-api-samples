@@ -44,33 +44,52 @@ public final class SampleMain implements Callable<Integer> {
     @Option(
         names = "--project-name",
         description = "The name of the project to show the builds of (if omitted, all builds are shown)",
+        defaultValue = Option.NULL_VALUE,
         order = 2
     )
     String projectName;
 
-    public static void main(String[] args) {
+    @Option(
+        names = "--max-builds",
+        description = "The maximum number of builds to return by single query. The number may be lower if --max-wait-secs is reached (default: ${DEFAULT-VALUE})",
+        defaultValue = "100",
+        order = 3
+    )
+    int maxBuilds;
+
+    @Option(
+        names = "--max-wait-secs",
+        description = "The maximum number of seconds to wait until builds query returns. If this time is reached before --max-builds is reached, the query returns with already processed builds (default: ${DEFAULT-VALUE})",
+        defaultValue = "3",
+        order = 4
+    )
+    int maxWaitSecs;
+
+    public static void main(final String[] args) {
         System.exit(new CommandLine(new SampleMain()).execute(args));
     }
 
     @Override
     public Integer call() throws Exception {
-        String serverUrl = this.serverUrl.endsWith("/")
+        final String serverUrl = this.serverUrl.endsWith("/")
             ? this.serverUrl.substring(0, this.serverUrl.length() - 1)
             : this.serverUrl;
 
-        BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
-        String accessKey = reader.readLine();
+        final BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
+        final String accessKey = reader.readLine();
         reader.close();
 
-        String projectName = this.projectName == null || this.projectName.trim().isEmpty() ? null : this.projectName;
+        final ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(serverUrl);
+        apiClient.setBearerToken(accessKey);
 
-        ApiClient apiClient = new ApiClient();
-        apiClient.updateBaseUri(serverUrl);
-        apiClient.setRequestInterceptor(request -> request.setHeader("Authorization", "Bearer " + accessKey));
-
-        GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
-        BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, serverUrl, projectName);
-        BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor);
+        final GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
+        final BuildsProcessor buildsProcessor = new BuildsProcessor(
+            api,
+            new BuildCacheBuildProcessor(api, projectName),
+            maxBuilds,
+            maxWaitSecs
+        );
 
         System.out.println("Processing builds ...");
 

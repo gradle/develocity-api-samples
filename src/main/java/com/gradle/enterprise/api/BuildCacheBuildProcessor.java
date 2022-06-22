@@ -13,7 +13,6 @@ import java.util.Set;
 public final class BuildCacheBuildProcessor implements BuildProcessor {
 
     private static final Set<GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum> GRADLE_CACHE_HIT_TYPES = new HashSet<>();
-
     private static final Set<MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum> MAVEN_CACHE_HIT_TYPES = new HashSet<>();
 
     static {
@@ -24,24 +23,27 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private final GradleEnterpriseApi api;
-    private final String serverUrl;
     private final String projectName;
 
-    BuildCacheBuildProcessor(GradleEnterpriseApi api, String serverUrl, String projectName) {
+    BuildCacheBuildProcessor(final GradleEnterpriseApi api, final String projectName) {
         this.api = api;
-        this.serverUrl = serverUrl;
         this.projectName = projectName;
     }
 
     @Override
-    public void process(Build build) {
+    public void process(final Build build) {
         try {
-            if (build.getBuildToolType().equals("gradle")) {
-                processGradleBuild(build);
-            } else if (build.getBuildToolType().equals("maven")) {
-                processMavenBuild(build);
+            switch (build.getBuildToolType()) {
+                case "gradle":
+                    processGradleBuild(build);
+                    break;
+                case "maven":
+                    processMavenBuild(build);
+                    break;
+                default:
+                    System.out.println("Unsupported build tool type received - " + build.getBuildToolType());
             }
-        } catch (ApiException e) {
+        } catch (final ApiException e) {
             reportError(build, e);
         }
     }
@@ -90,17 +92,18 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
 
     private void reportError(Build build, ApiException e) {
         System.err.printf("API Error %s for Build Scan ID %s%n%s%n", e.getCode(), build.getId(), e.getResponseBody());
-        ApiProblemParser.maybeParse(e).ifPresent(apiProblem -> {
-            // Types of API problems can be checked as following
-            if (apiProblem.getType().equals("urn:gradle:enterprise:api:problems:build-deleted")) {
-                // Handle the case when the Build Scan is deleted.
-                System.err.println(apiProblem.getDetail());
-            }
-        });
+        ApiProblemParser.maybeParse(e, api.getApiClient().getObjectMapper())
+            .ifPresent(apiProblem -> {
+                // Types of API problems can be checked as following
+                if (apiProblem.getType().equals("urn:gradle:enterprise:api:problems:build-deleted")) {
+                    // Handle the case when the Build Scan is deleted.
+                    System.err.println(apiProblem.getDetail());
+                }
+            });
     }
 
     private URI buildScanUrl(Build build) {
-        return URI.create(serverUrl + "/s/" + build.getId());
+        return URI.create(api.getApiClient().getBasePath() + "/s/" + build.getId());
     }
 
     private static BigDecimal computeAvoidanceSavingsRatioPercentage(GradleBuildCachePerformance gradleBuildCachePerformanceModel) {
@@ -141,7 +144,7 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
         if (total == 0) {
             return BigDecimal.ZERO;
         } else {
-            return toPercentage(new BigDecimal(portion).divide(new BigDecimal(total), 2, RoundingMode.HALF_UP));
+            return toPercentage(BigDecimal.valueOf(portion).divide(BigDecimal.valueOf(total), 2, RoundingMode.HALF_UP));
         }
     }
 
