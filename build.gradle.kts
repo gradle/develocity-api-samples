@@ -2,10 +2,38 @@ group = "com.gradle.enterprise.api"
 description = "Gradle Enterprise API sample"
 
 plugins {
-    id("org.hidetake.swagger.generator") version "2.19.2"
+    id("org.openapi.generator") version "6.0.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
     application
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass.set("com.gradle.enterprise.api.SampleMain")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
+dependencies {
+    implementation("info.picocli:picocli:4.6.3")
+
+    // Required for OpenAPI Generator
+    implementation("io.swagger:swagger-annotations:1.6.6")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
+    implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.13.3")
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+    implementation("org.apache.httpcomponents:httpclient:4.5.13")
+    implementation("org.apache.httpcomponents:httpcore:4.4.15")
+    implementation("org.apache.httpcomponents:httpmime:4.5.13")
 }
 
 val gradleEnterpriseVersion = "2022.2.4" // Must be later than 2022.1
@@ -20,100 +48,31 @@ val apiSpecificationFile = apiSpecificationFileGradleProperty
         })
     )
 
-application {
-    mainClass.set("com.gradle.enterprise.api.SampleMain")
+openApiGenerate {
+    generatorName.set("java")
+    inputSpec.set(apiSpecificationFile.get().absolutePath)
+    outputDir.set("${buildDir}/generated/$name")
+    ignoreFileOverride.set("$projectDir/.openapi-generator-ignore")
+    modelPackage.set("com.gradle.enterprise.api.model")
+    apiPackage.set("com.gradle.enterprise.api")
+    invokerPackage.set("com.gradle.enterprise.api.client")
+    // see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md for a description of each configuration option
+    configOptions.set(mapOf(
+        "library" to "apache-httpclient",
+        "dateLibrary" to "java8",
+        "hideGenerationTimestamp" to "true",
+        "openApiNullable" to "false",
+        "useBeanValidation" to "false",
+        "disallowAdditionalPropertiesIfNotPresent" to "false",
+        "additionalModelTypeAnnotations" to  "@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)",
+        "sourceFolder" to ""  // makes IDEs like IntelliJ more reliably interpret the class packages.
+    ))
 }
 
-swaggerSources.configureEach {
-    code.apply {
-        language = "java"
-        inputFile = apiSpecificationFile.get()
-        configFile = file("openapi/openapi-generator-config.json")
-        outputDir = file("${buildDir}/generated/$name")
-    }
-
-    val generationDir = file("${code.outputDir}/src/main/java")
-    val sourceSet = sourceSets.create(name) {
-        java { srcDir(files(generationDir).builtBy(code)) }
-    }
-
-    java {
-        registerFeature(name) {
-            usingSourceSet(sourceSet)
+sourceSets {
+    main {
+        java {
+            srcDir(tasks.openApiGenerate)
         }
-    }
-
-    dependencies {
-        add(sourceSet.apiConfigurationName, "io.swagger:swagger-annotations:1.6.6")
-        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
-        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.core:jackson-databind:2.13.3")
-        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.13.3")
-        add(sourceSet.implementationConfigurationName, "com.google.code.findbugs:jsr305:3.0.2")
-        add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpclient:4.5.13")
-        add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpcore:4.4.15")
-        add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpmime:4.5.13")
-    }
-}
-
-swaggerSources.register("model") {
-    code.components = listOf("models", "modelTests=false", "modelDocs=false", "log.level=error")
-}
-
-val client = swaggerSources.register("client") {
-    code.components = mapOf(
-        "supportingFiles" to listOf(
-            "ApiClient.java",
-            "ApiException.java",
-            "ApiResponse.java",
-            "Pair.java",
-            "Configuration.java",
-            "Authentication.java",
-            "HttpBearerAuth.java",
-            "ServerConfiguration.java",
-            "ServerVariable.java",
-            "JavaTimeFormatter.java",
-            "StringUtil.java",
-            "RFC3339DateFormat.java"
-        ),
-        "apis" to true,
-        "apiTests" to false,
-        "modelTests" to false,
-        "apiDocs" to false,
-        "modelDocs" to false,
-        "models" to false,
-        "log.level" to "error"
-    )
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
-    implementation("info.picocli:picocli:4.6.3")
-    implementation(project(project.path)) {
-        capabilities {
-            requireCapability("com.gradle.enterprise.api:${project.name}-model")
-        }
-    }
-    implementation(project(project.path)) {
-        capabilities {
-            requireCapability("com.gradle.enterprise.api:${project.name}-client")
-        }
-    }
-
-    add("swaggerCodegen", "org.openapitools:openapi-generator-cli:6.0.0")
-
-    add(sourceSets[client.get().name].implementationConfigurationName, project(":") as ModuleDependency) {
-        capabilities {
-            requireCapability("com.gradle.enterprise.api:${project.name}-model")
-        }
-    }
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
