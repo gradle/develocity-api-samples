@@ -51,7 +51,7 @@ swaggerSources.configureEach {
         add(sourceSet.implementationConfigurationName, "com.google.code.findbugs:jsr305:3.0.2")
         add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpclient:4.5.13")
         add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpcore:4.4.15")
-        add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpmime:4.3.3")
+        add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpmime:4.5.13")
     }
 }
 
