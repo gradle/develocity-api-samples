@@ -7,37 +7,41 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URI;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 public final class BuildCacheBuildProcessor implements BuildProcessor {
 
-    private static final Set<GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum> GRADLE_CACHE_HIT_TYPES = Set.of(
-        GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_LOCAL_CACHE,
-        GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE
-    );
+    private static final Set<GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum> GRADLE_CACHE_HIT_TYPES = new HashSet<>();
+    private static final Set<MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum> MAVEN_CACHE_HIT_TYPES = new HashSet<>();
 
-    private static final Set<MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum> MAVEN_CACHE_HIT_TYPES = Set.of(
-        MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_LOCAL_CACHE,
-        MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE
-    );
+    static {
+        GRADLE_CACHE_HIT_TYPES.add(GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_LOCAL_CACHE);
+        GRADLE_CACHE_HIT_TYPES.add(GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE);
+        MAVEN_CACHE_HIT_TYPES.add(MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_LOCAL_CACHE);
+        MAVEN_CACHE_HIT_TYPES.add(MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE);
+    }
 
     private final GradleEnterpriseApi api;
-    private final String serverUrl;
     private final String projectName;
 
-    BuildCacheBuildProcessor(GradleEnterpriseApi api, String serverUrl, String projectName) {
+    BuildCacheBuildProcessor(GradleEnterpriseApi api,String projectName) {
         this.api = api;
-        this.serverUrl = serverUrl;
         this.projectName = projectName;
     }
 
     @Override
     public void process(Build build) {
         try {
-            if (build.getBuildToolType().equals("gradle")) {
-                processGradleBuild(build);
-            } else if (build.getBuildToolType().equals("maven")) {
-                processMavenBuild(build);
+            switch (build.getBuildToolType()) {
+                case "gradle":
+                    processGradleBuild(build);
+                    break;
+                case "maven":
+                    processMavenBuild(build);
+                    break;
+                default:
+                    System.out.println("Unsupported build tool type received - " + build.getBuildToolType());
             }
         } catch (ApiException e) {
             reportError(build, e);
@@ -45,9 +49,9 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private void processMavenBuild(Build build) throws ApiException {
-        var attributes = api.getMavenAttributes(build.getId(), new BuildQuery());
+        MavenAttributes attributes = api.getMavenAttributes(build.getId(), new BuildQuery());
         if (projectName == null || projectName.equals(attributes.getTopLevelProjectName())) {
-            var model = api.getMavenBuildCachePerformance(build.getId(), new BuildQuery());
+            MavenBuildCachePerformance model = api.getMavenBuildCachePerformance(build.getId(), new BuildQuery());
             reportBuild(
                 build,
                 computeCacheHitPercentage(model),
@@ -60,9 +64,9 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private void processGradleBuild(Build build) throws ApiException {
-        var attributes = api.getGradleAttributes(build.getId(), new BuildQuery());
+        GradleAttributes attributes = api.getGradleAttributes(build.getId(), new BuildQuery());
         if (projectName == null || projectName.equals(attributes.getRootProjectName())) {
-            var model = api.getGradleBuildCachePerformance(build.getId(), new BuildQuery());
+            GradleBuildCachePerformance model = api.getGradleBuildCachePerformance(build.getId(), new BuildQuery());
             reportBuild(
                 build,
                 computeCacheHitPercentage(model),
@@ -88,17 +92,18 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
 
     private void reportError(Build build, ApiException e) {
         System.err.printf("API Error %s for Build Scan ID %s%n%s%n", e.getCode(), build.getId(), e.getResponseBody());
-        ApiProblemParser.maybeParse(e).ifPresent(apiProblem -> {
-            // Types of API problems can be checked as following
-            if (apiProblem.getType().equals("urn:gradle:enterprise:api:problems:build-deleted")) {
-                // Handle the case when the Build Scan is deleted.
-                System.err.println(apiProblem.getDetail());
-            }
-        });
+        ApiProblemParser.maybeParse(e, api.getApiClient().getObjectMapper())
+            .ifPresent(apiProblem -> {
+                // Types of API problems can be checked as following
+                if (apiProblem.getType().equals("urn:gradle:enterprise:api:problems:build-deleted")) {
+                    // Handle the case when the Build Scan is deleted.
+                    System.err.println(apiProblem.getDetail());
+                }
+            });
     }
 
     private URI buildScanUrl(Build build) {
-        return URI.create(serverUrl + "/s/" + build.getId());
+        return URI.create(api.getApiClient().getBasePath() + "/s/" + build.getId());
     }
 
     private static BigDecimal computeAvoidanceSavingsRatioPercentage(GradleBuildCachePerformance gradleBuildCachePerformanceModel) {
@@ -139,7 +144,7 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
         if (total == 0) {
             return BigDecimal.ZERO;
         } else {
-            return toPercentage(new BigDecimal(portion).divide(new BigDecimal(total), 2, RoundingMode.HALF_UP));
+            return toPercentage(BigDecimal.valueOf(portion).divide(BigDecimal.valueOf(total), 2, RoundingMode.HALF_UP));
         }
     }
 

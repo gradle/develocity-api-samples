@@ -15,7 +15,10 @@ val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificat
 val apiSpecificationFile = apiSpecificationFileGradleProperty
     .map { s -> file(s) }
     .orElse(objects.property(File::class)
-        .convention(provider { resources.text.fromUri("${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile() }))
+        .convention(provider {
+            resources.text.fromUri("${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile()
+        })
+    )
 
 application {
     mainClass.set("com.gradle.enterprise.api.SampleMain")
@@ -43,10 +46,12 @@ swaggerSources.configureEach {
     dependencies {
         add(sourceSet.apiConfigurationName, "io.swagger:swagger-annotations:1.6.6")
         add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
-        add(sourceSet.implementationConfigurationName, "javax.annotation:javax.annotation-api:1.3.2")
-        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.core:jackson-databind:2.13.2.2")
-        add(sourceSet.implementationConfigurationName, "javax.validation:validation-api:2.0.1.Final")
+        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.core:jackson-databind:2.13.3")
+        add(sourceSet.implementationConfigurationName, "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.13.3")
         add(sourceSet.implementationConfigurationName, "com.google.code.findbugs:jsr305:3.0.2")
+        add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpclient:4.5.13")
+        add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpcore:4.4.15")
+        add(sourceSet.implementationConfigurationName, "org.apache.httpcomponents:httpmime:4.3.3")
     }
 }
 
@@ -56,7 +61,20 @@ swaggerSources.register("model") {
 
 val client = swaggerSources.register("client") {
     code.components = mapOf(
-        "supportingFiles" to listOf("ApiClient.java", "ApiException.java", "ApiResponse.java", "Pair.java"),
+        "supportingFiles" to listOf(
+            "ApiClient.java",
+            "ApiException.java",
+            "ApiResponse.java",
+            "Pair.java",
+            "Configuration.java",
+            "Authentication.java",
+            "HttpBearerAuth.java",
+            "ServerConfiguration.java",
+            "ServerVariable.java",
+            "JavaTimeFormatter.java",
+            "StringUtil.java",
+            "RFC3339DateFormat.java"
+        ),
         "apis" to true,
         "apiTests" to false,
         "modelTests" to false,
@@ -72,7 +90,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
     implementation("info.picocli:picocli:4.6.3")
     implementation(project(project.path)) {
         capabilities {
@@ -96,6 +114,6 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }

@@ -5,8 +5,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Callable;
@@ -44,11 +44,28 @@ public final class SampleMain implements Callable<Integer> {
     @Option(
         names = "--project-name",
         description = "The name of the project to show the builds of (if omitted, all builds are shown)",
+        defaultValue = Option.NULL_VALUE,
         order = 2
     )
     String projectName;
 
-    public static void main(String[] args) {
+    @Option(
+        names = "--max-builds",
+        description = "The maximum number of builds to return by a single query. The number may be lower if --max-wait-secs is reached (default: ${DEFAULT-VALUE})",
+        defaultValue = "100",
+        order = 3
+    )
+    int maxBuilds;
+
+    @Option(
+        names = "--max-wait-secs",
+        description = "The maximum number of seconds to wait until a query returns. If the query returns before --max-builds is reached, it returns with already processed builds (default: ${DEFAULT-VALUE})",
+        defaultValue = "3",
+        order = 4
+    )
+    int maxWaitSecs;
+
+    public static void main(final String[] args) {
         System.exit(new CommandLine(new SampleMain()).execute(args));
     }
 
@@ -58,19 +75,21 @@ public final class SampleMain implements Callable<Integer> {
             ? this.serverUrl.substring(0, this.serverUrl.length() - 1)
             : this.serverUrl;
 
-        String accessKey = Files.readString(Paths.get(accessKeyFile)).trim();
+        BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
+        String accessKey = reader.readLine();
+        reader.close();
 
-        String projectName = this.projectName == null || this.projectName.isBlank()
-            ? null
-            : this.projectName;
-
-        var apiClient = new ApiClient();
-        apiClient.updateBaseUri(serverUrl);
-        apiClient.setRequestInterceptor(request -> request.setHeader("Authorization", "Bearer " + accessKey));
+        ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(serverUrl);
+        apiClient.setBearerToken(accessKey);
 
         GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
-        BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, serverUrl, projectName);
-        BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor);
+        BuildsProcessor buildsProcessor = new BuildsProcessor(
+            api,
+            new BuildCacheBuildProcessor(api, projectName),
+            maxBuilds,
+            maxWaitSecs
+        );
 
         System.out.println("Processing builds ...");
 
