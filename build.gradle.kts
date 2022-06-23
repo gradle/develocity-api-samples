@@ -46,16 +46,19 @@ val apiSpecificationFile = apiSpecificationFileGradleProperty
         .convention(provider {
             resources.text.fromUri("${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile()
         })
-    )
+    ).map { file -> file.absolutePath }
 
+val basePackageName = "com.gradle.enterprise.api"
+val modelPackageName = "$basePackageName.model"
+val invokerPackageName = "$basePackageName.client"
 openApiGenerate {
     generatorName.set("java")
-    inputSpec.set(apiSpecificationFile.get().absolutePath)
-    outputDir.set("${buildDir}/generated/$name")
-    ignoreFileOverride.set("$projectDir/.openapi-generator-ignore")
-    modelPackage.set("com.gradle.enterprise.api.model")
-    apiPackage.set("com.gradle.enterprise.api")
-    invokerPackage.set("com.gradle.enterprise.api.client")
+    inputSpec.set(apiSpecificationFile)
+    outputDir.set(project.layout.buildDirectory.file("generated/$name").map { it.asFile.absolutePath })
+    ignoreFileOverride.set(project.layout.projectDirectory.file(".openapi-generator-ignore").asFile.absolutePath)
+    modelPackage.set(modelPackageName)
+    apiPackage.set(basePackageName)
+    invokerPackage.set(invokerPackageName)
     // see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md for a description of each configuration option
     configOptions.set(mapOf(
         "library" to "apache-httpclient",
