@@ -71,20 +71,20 @@ public final class SampleMain implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        final String serverUrl = this.serverUrl.endsWith("/")
+        String serverUrl = this.serverUrl.endsWith("/")
             ? this.serverUrl.substring(0, this.serverUrl.length() - 1)
             : this.serverUrl;
 
-        final BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
-        final String accessKey = reader.readLine();
+        BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
+        String accessKey = reader.readLine();
         reader.close();
 
-        final ApiClient apiClient = new ApiClient();
+        ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(serverUrl);
         apiClient.setBearerToken(accessKey);
 
-        final GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
-        final BuildsProcessor buildsProcessor = new BuildsProcessor(
+        GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
+        BuildsProcessor buildsProcessor = new BuildsProcessor(
             api,
             new BuildCacheBuildProcessor(api, projectName),
             maxBuilds,

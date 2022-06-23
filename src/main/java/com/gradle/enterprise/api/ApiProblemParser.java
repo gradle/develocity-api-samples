@@ -12,7 +12,7 @@ public final class ApiProblemParser {
 
     private static final String CONTENT_TYPE = "application/problem+json";
 
-    public static Optional<ApiProblem> maybeParse(final ApiException apiException, final ObjectMapper objectMapper) {
+    public static Optional<ApiProblem> maybeParse(ApiException apiException, ObjectMapper objectMapper) {
         return apiException.getResponseHeaders()
             .get("content-type")
             .stream()

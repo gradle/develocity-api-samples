@@ -25,13 +25,13 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     private final GradleEnterpriseApi api;
     private final String projectName;
 
-    BuildCacheBuildProcessor(final GradleEnterpriseApi api, final String projectName) {
+    BuildCacheBuildProcessor(GradleEnterpriseApi api,String projectName) {
         this.api = api;
         this.projectName = projectName;
     }
 
     @Override
-    public void process(final Build build) {
+    public void process(Build build) {
         try {
             switch (build.getBuildToolType()) {
                 case "gradle":
@@ -43,7 +43,7 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
                 default:
                     System.out.println("Unsupported build tool type received - " + build.getBuildToolType());
             }
-        } catch (final ApiException e) {
+        } catch (ApiException e) {
             reportError(build, e);
         }
     }
