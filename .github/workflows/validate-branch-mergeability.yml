@@ -1,4 +1,4 @@
-name: Validate Development branch mergeability
+name: Validate development branch mergeability
 on:
   pull_request:
     branches: [main]
@@ -13,4 +13,4 @@ jobs:
           git fetch --unshallow
           git checkout development
           git pull
-          git merge ${GITHUB_HEAD_REF}
+          git merge origin/${GITHUB_HEAD_REF}
