@@ -2,6 +2,7 @@ name: Merge main branch to development branch
 on:
   pull_request:
     branches: [main]
+    types: [closed]
 
 jobs:
   merge-main-to-development:
