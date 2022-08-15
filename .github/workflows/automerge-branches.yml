@@ -15,5 +15,5 @@ jobs:
           git fetch --unshallow
           git checkout development
           git pull
-          git merge --no-ff main
+          git merge main
           git push
