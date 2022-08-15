@@ -1,5 +1,5 @@
-name: Merge main brach to development branch
-on: 
+name: Merge main branch to development branch
+on:
   pull_request:
     branches: [main]
 
@@ -9,8 +9,8 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Merge main branch to development branch
+    - uses: actions/checkout@v3
+    - name: Merge and push
       run: |
           git fetch --unshallow
           git checkout development
