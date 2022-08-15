@@ -1,16 +1,16 @@
-name: Automerge Main to Development
+name: Merge main brach to development branch
 on: 
   pull_request:
     branches: [main]
 
 jobs:
-  automerge-main-to-development:
+  merge-main-to-development:
     if: github.event.pull_request.merged == true
 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Merge main to development
+    - name: Merge main branch to development branch
       run: |
           git fetch --unshallow
           git checkout development
