@@ -1,5 +1,5 @@
 name: Validate Development branch mergeability
-on: 
+on:
   pull_request:
     branches: [main]
 
@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Perform merge
+    - name: Local merge
       run: |
           git fetch --unshallow
           git checkout development
           git pull
-          git merge ${GITHUB_BASE_REF}
+          git merge ${GITHUB_HEAD_REF}
