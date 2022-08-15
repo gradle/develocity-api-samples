@@ -1,4 +1,4 @@
-name: Validate Development branch mergeability
+name: Validate development branch mergeability
 on:
   pull_request:
     branches: [main]
