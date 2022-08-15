@@ -13,4 +13,4 @@ jobs:
           git fetch --unshallow
           git checkout development
           git pull
-          git merge ${GITHUB_REF_NAME}
+          git merge ${GITHUB_BASE_REF}
