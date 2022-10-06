@@ -1,7 +1,14 @@
 package com.gradle.enterprise.api;
 
 import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.model.*;
+import com.gradle.enterprise.api.model.Build;
+import com.gradle.enterprise.api.model.BuildQuery;
+import com.gradle.enterprise.api.model.GradleAttributes;
+import com.gradle.enterprise.api.model.GradleBuildCachePerformance;
+import com.gradle.enterprise.api.model.GradleBuildCachePerformanceTaskExecutionEntry;
+import com.gradle.enterprise.api.model.MavenAttributes;
+import com.gradle.enterprise.api.model.MavenBuildCachePerformance;
+import com.gradle.enterprise.api.model.MavenBuildCachePerformanceGoalExecutionEntry;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,10 +30,12 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private final GradleEnterpriseApi api;
+    private final String serverUrl;
     private final String projectName;
 
-    BuildCacheBuildProcessor(GradleEnterpriseApi api,String projectName) {
+    BuildCacheBuildProcessor(GradleEnterpriseApi api, String serverUrl, String projectName) {
         this.api = api;
+        this.serverUrl = serverUrl;
         this.projectName = projectName;
     }
 
@@ -92,7 +101,7 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
 
     private void reportError(Build build, ApiException e) {
         System.err.printf("API Error %s for Build Scan ID %s%n%s%n", e.getCode(), build.getId(), e.getResponseBody());
-        ApiProblemParser.maybeParse(e, api.getApiClient().getObjectMapper())
+        ApiProblemParser.maybeParse(e)
             .ifPresent(apiProblem -> {
                 // Types of API problems can be checked as following
                 if (apiProblem.getType().equals("urn:gradle:enterprise:api:problems:build-deleted")) {
@@ -103,7 +112,7 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private URI buildScanUrl(Build build) {
-        return URI.create(api.getApiClient().getBasePath() + "/s/" + build.getId());
+        return URI.create(serverUrl + "/s/" + build.getId());
     }
 
     private static BigDecimal computeAvoidanceSavingsRatioPercentage(GradleBuildCachePerformance gradleBuildCachePerformanceModel) {
