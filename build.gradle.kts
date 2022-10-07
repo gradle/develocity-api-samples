@@ -18,7 +18,7 @@ application {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
 }
 
@@ -61,7 +61,7 @@ openApiGenerate {
     invokerPackage.set(invokerPackageName)
     // see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md for a description of each configuration option
     configOptions.set(mapOf(
-        "library" to "apache-httpclient",
+        "library" to "native",
         "dateLibrary" to "java8",
         "hideGenerationTimestamp" to "true",
         "openApiNullable" to "false",

@@ -79,17 +79,13 @@ public final class SampleMain implements Callable<Integer> {
         String accessKey = reader.readLine();
         reader.close();
 
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(serverUrl);
-        apiClient.setBearerToken(accessKey);
+        var apiClient = new ApiClient();
+        apiClient.updateBaseUri(serverUrl);
+        apiClient.setRequestInterceptor(request -> request.setHeader("Authorization", "Bearer " + accessKey));
 
         GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
-        BuildsProcessor buildsProcessor = new BuildsProcessor(
-            api,
-            new BuildCacheBuildProcessor(api, projectName),
-            maxBuilds,
-            maxWaitSecs
-        );
+        BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, serverUrl, projectName);
+        BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor, maxBuilds, maxWaitSecs);
 
         System.out.println("Processing builds ...");
 
