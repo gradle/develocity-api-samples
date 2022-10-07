@@ -37,10 +37,14 @@ $ build/install/gradle-enterprise-api-samples/bin/gradle-enterprise-api-samples 
 - `«serverUrl»`: The address of your Gradle Enterprise server (e.g. `https://ge.example.com`)
 - `«accessKeyFile»`: The path to the file containing the access key
 - `«projectName»` (optional): The name of the project to limit reporting to (reports all builds when omitted)
+- `«reverse»` (optional): A boolean indicating the time direction of the query. A value of true indicates a backward query. A value of false indicates a forward query (default: false).
 - `«maxBuilds»` (optional): The maximum number of builds to return by a single query. The number may be lower if --max-wait-secs is reached (default - 100)
 - `«maxWaitSecs»` (optional): The maximum number of seconds to wait until a query returns. If the query returns before --max-builds is reached, it returns with already processed builds (default - 3)
 
-The program will print `Processing builds ...`, then indefinitely listen for any new builds being published to Gradle Enterprise and print basic information about each build to the console.
+The program will print `Processing builds ...`, then:
+- when not using `--reverse` or using `--reverse=false`: indefinitely listen for any new builds being published to Gradle Enterprise and print basic information about each build to the console.
+- when using `--reverse` or `--reverse=true`: listen for all builds that were already published to Gradle Enterprise and print basic information about each build to the console.
+
 To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
 ## The sample code
