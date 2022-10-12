@@ -49,11 +49,20 @@ public final class SampleMain implements Callable<Integer> {
     )
     String projectName;
 
+
+    @Option(
+        names = "--reverse",
+        description = "A boolean indicating the time direction of the query. A value of true indicates a backward query, and returned builds will be sorted from most to least recent. A value of false indicates a forward query, and returned builds will be sorted from least to most recent (default: ${DEFAULT-VALUE}).",
+        defaultValue = "false",
+        order = 3
+    )
+    boolean reverse;
+
     @Option(
         names = "--max-builds",
         description = "The maximum number of builds to return by a single query. The number may be lower if --max-wait-secs is reached (default: ${DEFAULT-VALUE})",
         defaultValue = "100",
-        order = 3
+        order = 4
     )
     int maxBuilds;
 
@@ -61,7 +70,7 @@ public final class SampleMain implements Callable<Integer> {
         names = "--max-wait-secs",
         description = "The maximum number of seconds to wait until a query returns. If the query returns before --max-builds is reached, it returns with already processed builds (default: ${DEFAULT-VALUE})",
         defaultValue = "3",
-        order = 4
+        order = 5
     )
     int maxWaitSecs;
 
@@ -79,17 +88,18 @@ public final class SampleMain implements Callable<Integer> {
         String accessKey = reader.readLine();
         reader.close();
 
-        var apiClient = new ApiClient();
+        ApiClient apiClient = new ApiClient();
         apiClient.updateBaseUri(serverUrl);
         apiClient.setRequestInterceptor(request -> request.setHeader("Authorization", "Bearer " + accessKey));
 
         GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
         BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, serverUrl, projectName);
-        BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor, maxBuilds, maxWaitSecs);
+        BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor, reverse, maxBuilds, maxWaitSecs);
 
         System.out.println("Processing builds ...");
 
-        buildsProcessor.process(Instant.now().minus(Duration.ofMinutes(15)));
+        Instant startProcessingTime = reverse ? Instant.now() : Instant.now().minus(Duration.ofMinutes(15));
+        buildsProcessor.process(startProcessingTime);
 
         return 0;
     }
