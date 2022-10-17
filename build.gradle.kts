@@ -26,7 +26,7 @@ dependencies {
     implementation("info.picocli:picocli:4.6.3")
 
     // Required for OpenAPI Generator
-    implementation("io.swagger:swagger-annotations:1.6.7")
+    implementation("io.swagger:swagger-annotations:1.6.8")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4")
     implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.13.4")
