@@ -28,7 +28,7 @@ dependencies {
     // Required for OpenAPI Generator
     implementation("io.swagger:swagger-annotations:1.6.8")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.0")
     implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.13.4")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
