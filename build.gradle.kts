@@ -31,7 +31,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1")
     implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.14.1")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("org.apache.httpcomponents:httpclient:4.5.13")
+    implementation("org.apache.httpcomponents:httpclient:4.5.14")
     implementation("org.apache.httpcomponents:httpcore:4.4.16")
     implementation("org.apache.httpcomponents:httpmime:4.5.13")
 }
