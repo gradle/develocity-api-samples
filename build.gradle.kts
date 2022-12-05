@@ -33,7 +33,7 @@ dependencies {
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
     implementation("org.apache.httpcomponents:httpcore:4.4.16")
-    implementation("org.apache.httpcomponents:httpmime:4.5.13")
+    implementation("org.apache.httpcomponents:httpmime:4.5.14")
 }
 
 val gradleEnterpriseVersion = "2022.3" // Must be later than 2022.1
