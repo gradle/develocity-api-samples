@@ -12,32 +12,34 @@ public final class BuildsProcessor {
 
     private final GradleEnterpriseApi api;
     private final BuildProcessor buildProcessor;
+    private final boolean reverse;
     private final int maxBuilds;
     private final int maxWaitSecs;
 
-    public BuildsProcessor(GradleEnterpriseApi api, BuildProcessor buildProcessor, int maxBuilds, int maxWaitSecs) {
+    public BuildsProcessor(GradleEnterpriseApi api, BuildProcessor buildProcessor, boolean reverse, int maxBuilds, int maxWaitSecs) {
         this.api = api;
         this.buildProcessor = buildProcessor;
+        this.reverse = reverse;
         this.maxBuilds = maxBuilds;
         this.maxWaitSecs = maxWaitSecs;
     }
 
-    public void process(Instant since) throws ApiException {
-        Consumer<BuildsQuery> sinceApplicator = buildsQuery -> buildsQuery.since(since.toEpochMilli());
+    public void process(Instant fromInstant) throws ApiException {
+        Consumer<BuildsQuery> fromApplicator = buildsQuery -> buildsQuery.fromInstant(fromInstant.toEpochMilli());
 
-        //noinspection InfiniteLoopStatement
         while (true) {
             BuildsQuery query = new BuildsQuery();
+            query.setReverse(reverse);
             query.setMaxBuilds(maxBuilds);
             query.setMaxWaitSecs(maxWaitSecs);
-            sinceApplicator.accept(query);
+            fromApplicator.accept(query);
 
             List<Build> builds = api.getBuilds(query);
-
-            if (!builds.isEmpty()) {
-                builds.forEach(buildProcessor::process);
-
-                sinceApplicator = buildsQuery -> buildsQuery.sinceBuild(builds.get(builds.size() - 1).getId());
+            builds.forEach(buildProcessor::process);
+            if (reverse) {
+                break;
+            } else if (!builds.isEmpty()) {
+                fromApplicator = buildsQuery -> buildsQuery.fromBuild(builds.get(builds.size() - 1).getId());
             }
         }
     }
