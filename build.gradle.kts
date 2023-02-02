@@ -2,7 +2,7 @@ group = "com.gradle.enterprise.api"
 description = "Gradle Enterprise API sample"
 
 plugins {
-    id("org.openapi.generator") version "6.2.1"
+    id("org.openapi.generator") version "6.3.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
     application
@@ -18,7 +18,7 @@ application {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
 
@@ -34,6 +34,7 @@ dependencies {
     implementation("org.apache.httpcomponents:httpclient:4.5.14")
     implementation("org.apache.httpcomponents:httpcore:4.4.16")
     implementation("org.apache.httpcomponents:httpmime:4.5.14")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
 }
 
 val gradleEnterpriseVersion = "2022.4" // Must be later than 2022.1
@@ -59,9 +60,11 @@ openApiGenerate {
     modelPackage.set(modelPackageName)
     apiPackage.set(basePackageName)
     invokerPackage.set(invokerPackageName)
+    cleanupOutput.set(true)
+    openapiNormalizer.set(mapOf("REF_AS_PARENT_IN_ALLOF" to "true"))
     // see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md for a description of each configuration option
     configOptions.set(mapOf(
-        "library" to "native",
+        "library" to "apache-httpclient",
         "dateLibrary" to "java8",
         "hideGenerationTimestamp" to "true",
         "openApiNullable" to "false",

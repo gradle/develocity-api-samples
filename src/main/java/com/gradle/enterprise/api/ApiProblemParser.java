@@ -9,18 +9,18 @@ import java.io.UncheckedIOException;
 import java.util.Optional;
 
 public final class ApiProblemParser {
-
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String CONTENT_TYPE = "application/problem+json";
 
-    public static Optional<ApiProblem> maybeParse(ApiException apiException) {
+    public static Optional<ApiProblem> maybeParse(ApiException apiException, ObjectMapper objectMapper) {
         return apiException.getResponseHeaders()
-            .firstValue("content-type")
-            .filter(contentType -> contentType.startsWith(CONTENT_TYPE))
+            .get("content-type")
+            .stream()
+            .findFirst()
+            .filter(headerValue -> headerValue.startsWith(CONTENT_TYPE))
             .map(__ -> {
                 try {
-                    return OBJECT_MAPPER.readValue(apiException.getResponseBody(), ApiProblem.class);
-                } catch (JsonProcessingException e) {
+                    return objectMapper.readValue(apiException.getResponseBody(), ApiProblem.class);
+                } catch (final JsonProcessingException e) {
                     throw new UncheckedIOException(e);
                 }
             });
