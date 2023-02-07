@@ -20,7 +20,7 @@ public final class ApiProblemParser {
             .map(__ -> {
                 try {
                     return objectMapper.readValue(apiException.getResponseBody(), ApiProblem.class);
-                } catch (final JsonProcessingException e) {
+                } catch (JsonProcessingException e) {
                     throw new UncheckedIOException(e);
                 }
             });

@@ -1,7 +1,14 @@
 package com.gradle.enterprise.api;
 
 import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.model.*;
+import com.gradle.enterprise.api.model.Build;
+import com.gradle.enterprise.api.model.BuildQuery;
+import com.gradle.enterprise.api.model.GradleAttributes;
+import com.gradle.enterprise.api.model.GradleBuildCachePerformance;
+import com.gradle.enterprise.api.model.GradleBuildCachePerformanceTaskExecutionEntry;
+import com.gradle.enterprise.api.model.MavenAttributes;
+import com.gradle.enterprise.api.model.MavenBuildCachePerformance;
+import com.gradle.enterprise.api.model.MavenBuildCachePerformanceGoalExecutionEntry;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
