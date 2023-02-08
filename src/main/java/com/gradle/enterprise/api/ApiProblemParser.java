@@ -6,14 +6,15 @@ import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.ApiProblem;
 
 import java.io.UncheckedIOException;
+import java.util.Collections;
 import java.util.Optional;
 
 public final class ApiProblemParser {
     private static final String CONTENT_TYPE = "application/problem+json";
 
     public static Optional<ApiProblem> maybeParse(ApiException apiException, ObjectMapper objectMapper) {
-        return apiException.getResponseHeaders()
-            .get("content-type")
+        return Optional.ofNullable(apiException.getResponseHeaders())
+            .map(responseHeaders -> responseHeaders.get("content-type")).orElse(Collections.emptyList())
             .stream()
             .findFirst()
             .filter(headerValue -> headerValue.startsWith(CONTENT_TYPE))
@@ -25,5 +26,4 @@ public final class ApiProblemParser {
                 }
             });
     }
-
 }
