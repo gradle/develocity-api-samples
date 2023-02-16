@@ -2,7 +2,7 @@ group = "com.gradle.enterprise.api"
 description = "Gradle Enterprise API sample"
 
 plugins {
-    id("org.openapi.generator") version "6.3.0"
+    id("org.openapi.generator") version "6.4.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
     application
@@ -31,9 +31,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
     implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.14.2")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("org.apache.httpcomponents:httpclient:4.5.14")
-    implementation("org.apache.httpcomponents:httpcore:4.4.16")
-    implementation("org.apache.httpcomponents:httpmime:4.5.14")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 }
 
