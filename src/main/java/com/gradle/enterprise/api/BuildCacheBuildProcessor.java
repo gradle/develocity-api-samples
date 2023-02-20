@@ -30,12 +30,10 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private final GradleEnterpriseApi api;
-    private final String serverUrl;
     private final String projectName;
 
-    BuildCacheBuildProcessor(GradleEnterpriseApi api, String serverUrl, String projectName) {
+    BuildCacheBuildProcessor(GradleEnterpriseApi api, String projectName) {
         this.api = api;
-        this.serverUrl = serverUrl;
         this.projectName = projectName;
     }
 
@@ -101,7 +99,7 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
 
     private void reportError(Build build, ApiException e) {
         System.err.printf("API Error %s for Build Scan ID %s%n%s%n", e.getCode(), build.getId(), e.getResponseBody());
-        ApiProblemParser.maybeParse(e)
+        ApiProblemParser.maybeParse(e, api.getApiClient().getObjectMapper())
             .ifPresent(apiProblem -> {
                 // Types of API problems can be checked as following
                 if (apiProblem.getType().equals("urn:gradle:enterprise:api:problems:build-deleted")) {
@@ -112,7 +110,7 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private URI buildScanUrl(Build build) {
-        return URI.create(serverUrl + "/s/" + build.getId());
+        return URI.create(api.getApiClient().getBasePath() + "/s/" + build.getId());
     }
 
     private static BigDecimal computeAvoidanceSavingsRatioPercentage(GradleBuildCachePerformance gradleBuildCachePerformanceModel) {

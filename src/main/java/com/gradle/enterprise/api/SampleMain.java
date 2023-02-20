@@ -89,11 +89,11 @@ public final class SampleMain implements Callable<Integer> {
         reader.close();
 
         ApiClient apiClient = new ApiClient();
-        apiClient.updateBaseUri(serverUrl);
-        apiClient.setRequestInterceptor(request -> request.setHeader("Authorization", "Bearer " + accessKey));
+        apiClient.setBasePath(serverUrl);
+        apiClient.setBearerToken(accessKey);
 
         GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
-        BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, serverUrl, projectName);
+        BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, projectName);
         BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor, reverse, maxBuilds, maxWaitSecs);
 
         System.out.println("Processing builds ...");
