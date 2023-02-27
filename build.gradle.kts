@@ -69,7 +69,8 @@ openApiGenerate {
         "useBeanValidation" to "false",
         "disallowAdditionalPropertiesIfNotPresent" to "false",
         "additionalModelTypeAnnotations" to  "@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)",
-        "sourceFolder" to ""  // makes IDEs like IntelliJ more reliably interpret the class packages.
+        "sourceFolder" to "",  // makes IDEs like IntelliJ more reliably interpret the class packages.
+        "containerDefaultToNull" to "true"
     ))
 }
 
