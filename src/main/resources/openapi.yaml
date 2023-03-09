@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: test
+  description: >-
+    test schema
+  version: 1.0.0
+servers:
+  - url: 'http://test.com'
+    description: stage
+paths:
+  /demo:
+    get:
+      summary: placeholder summary
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Child'
+components:
+  schemas:
+    Parent:
+      type: object
+      properties:
+        name:
+          type: string
+    Child:
+      x-all-of-name: Child
+      allOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: object
+          properties:
+            childProperty:
+              type: string

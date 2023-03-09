@@ -5,16 +5,12 @@ plugins {
     id("org.openapi.generator") version "6.4.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
-    application
 }
 
 repositories {
     mavenCentral()
 }
 
-application {
-    mainClass.set("com.gradle.enterprise.api.SampleMain")
-}
 
 java {
     toolchain {
@@ -23,8 +19,6 @@ java {
 }
 
 dependencies {
-    implementation("info.picocli:picocli:4.7.1")
-
     // Required for OpenAPI Generator
     implementation("io.swagger:swagger-annotations:1.6.9")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
@@ -35,24 +29,12 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 }
 
-val gradleEnterpriseVersion = "2022.4" // Must be later than 2022.1
-val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/enterprise/api-manual/ref/")
-
-val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificationFile")
-val apiSpecificationFile = apiSpecificationFileGradleProperty
-    .map { s -> file(s) }
-    .orElse(objects.property(File::class)
-        .convention(provider {
-            resources.text.fromUri("${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile()
-        })
-    ).map { file -> file.absolutePath }
-
-val basePackageName = "com.gradle.enterprise.api"
+val basePackageName = "demo.api"
 val modelPackageName = "$basePackageName.model"
 val invokerPackageName = "$basePackageName.client"
 openApiGenerate {
     generatorName.set("java")
-    inputSpec.set(apiSpecificationFile)
+    inputSpec.set(project.layout.projectDirectory.file("src/main/resources/openapi.yaml").asFile.absolutePath)
     outputDir.set(project.layout.buildDirectory.file("generated/$name").map { it.asFile.absolutePath })
     ignoreFileOverride.set(project.layout.projectDirectory.file(".openapi-generator-ignore").asFile.absolutePath)
     modelPackage.set(modelPackageName)
