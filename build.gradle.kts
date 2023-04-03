@@ -2,7 +2,7 @@ group = "com.gradle.enterprise.api"
 description = "Gradle Enterprise API sample"
 
 plugins {
-    id("org.openapi.generator") version "6.4.0"
+    id("org.openapi.generator") version "6.5.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
     application
