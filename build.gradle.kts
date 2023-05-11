@@ -32,7 +32,6 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
-    implementation("javax.annotation:javax.annotation-api:1.3.2")
 }
 
 val gradleEnterpriseVersion = "2023.1" // Must be later than 2022.1
