@@ -34,7 +34,7 @@ dependencies {
     implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
 }
 
-val gradleEnterpriseVersion = "2023.1" // Must be later than 2022.1
+val gradleEnterpriseVersion = "2023.2" // Must be later than 2022.1
 val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/enterprise/api-manual/ref/")
 
 val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificationFile")
