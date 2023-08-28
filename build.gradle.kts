@@ -23,7 +23,7 @@ java {
 }
 
 dependencies {
-    implementation("info.picocli:picocli:4.7.4")
+    implementation("info.picocli:picocli:4.7.5")
 
     // Required for OpenAPI Generator
     implementation("io.swagger:swagger-annotations:1.6.11")
