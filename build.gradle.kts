@@ -82,7 +82,7 @@ openApiGenerate {
     ))
 }
 
-tasks.named<Test>("test") {
+tasks.test {
     useJUnitPlatform()
 
     systemProperties["ge.api.url"] = apiSpecificationURL
