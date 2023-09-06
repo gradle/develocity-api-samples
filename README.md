@@ -15,6 +15,9 @@ $ ./gradlew install
 This builds and installs the program into `build/install/gradle-enterprise-api-samples`.
 You can use the `build/install/gradle-enterprise-api-samples/bin/gradle-enterprise-api-samples` script to run the sample.
 
+### Note on JDK11
+
+Due to a change in the [openapi generator project](https://github.com/gradle/gradle-enterprise-api-samples/pull/74)  JDK 11 is required to build the samples. The clients still work using java 8
 ## How to run
 
 A Gradle Enterprise access key with the “Export build data via the API” permission is required.
@@ -54,7 +57,6 @@ The sample code can be found [here](https://github.com/gradle/gradle-enterprise-
 ## Further documentation
 
 The Gradle Enterprise API manual and reference documentation for each version of the API can be found [here](https://docs.gradle.com/enterprise/api-manual).
-
 
 ## License
 
