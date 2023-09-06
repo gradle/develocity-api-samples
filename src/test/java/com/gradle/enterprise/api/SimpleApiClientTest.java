@@ -17,7 +17,7 @@ import java.net.InetSocketAddress;
 import java.util.Collections;
 import java.util.List;
 
-public class MockServer {
+public class SimpleApiClientTest {
 
     private static final String gradleEnterpriseAPIYamlUrl = System.getProperty("ge.api.url");
 
