@@ -45,7 +45,7 @@ val gradleEnterpriseVersion = "2023.2" // Must be later than 2022.1
 val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/enterprise/api-manual/ref/")
 
 val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificationFile")
-val apiSpecificationURL = "${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml"
+val apiSpecificationURL = baseApiUrl.map { "${it}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml" }
 val apiSpecificationFile = apiSpecificationFileGradleProperty
     .map { s -> file(s) }
     .orElse(
@@ -85,10 +85,12 @@ openApiGenerate {
 tasks.test {
     useJUnitPlatform()
 
-    systemProperties["ge.api.url"] = apiSpecificationURL
+    apiSpecificationURL.orNull.let { systemProperties["ge.api.url"] = it }
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(8))
+        }
     }
 }
 
