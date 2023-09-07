@@ -22,4 +22,4 @@ jobs:
       - name: Set up Gradle Build Action
         uses: gradle/gradle-build-action@v2
       - name: Build and test with Gradle
-        run: ./gradlew build test
+        run: ./gradlew build
