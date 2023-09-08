@@ -15,7 +15,7 @@ $ ./gradlew install
 This builds and installs the program into `build/install/gradle-enterprise-api-samples`.
 You can use the `build/install/gradle-enterprise-api-samples/bin/gradle-enterprise-api-samples` script to run the sample.
 
-### Note on JDK11
+### Note on Java 11
 
 The current version of the OpenAPI generator requires Java 11 to generate the client code. Even though this sample uses Java 11 to generate the client, but the generated **client code is based on Java 8**.
 Therefore, the generated client is still compatible with Java 8 based projects.
