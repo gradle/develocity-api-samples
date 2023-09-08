@@ -1,8 +1,10 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.distsDirectory
+
 group = "com.gradle.enterprise.api"
 description = "Gradle Enterprise API sample"
 
 plugins {
-    id("org.openapi.generator") version "6.6.0"
+    id("org.openapi.generator") version "7.0.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
     application
@@ -17,8 +19,9 @@ application {
 }
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
 }
 
@@ -32,18 +35,25 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
+
+    testImplementation("org.mock-server:mockserver-netty:5.15.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
 }
 
 val gradleEnterpriseVersion = "2023.2" // Must be later than 2022.1
 val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/enterprise/api-manual/ref/")
 
 val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificationFile")
+val apiSpecificationURL = baseApiUrl.map { "${it}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml" }
 val apiSpecificationFile = apiSpecificationFileGradleProperty
     .map { s -> file(s) }
-    .orElse(objects.property(File::class)
-        .convention(provider {
-            resources.text.fromUri("${baseApiUrl.get()}gradle-enterprise-${gradleEnterpriseVersion}-api.yaml").asFile()
-        })
+    .orElse(
+        objects.property(File::class)
+            .convention(provider {
+                resources.text.fromUri(apiSpecificationURL).asFile()
+            })
     ).map { file -> file.absolutePath }
 
 val basePackageName = "com.gradle.enterprise.api"
@@ -71,6 +81,17 @@ openApiGenerate {
         "sourceFolder" to "",  // makes IDEs like IntelliJ more reliably interpret the class packages.
         "containerDefaultToNull" to "true"
     ))
+}
+
+tasks.test {
+    useJUnitPlatform()
+
+    apiSpecificationURL.orNull.let { systemProperties["ge.api.url"] = it }
+
+
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    })
 }
 
 sourceSets {
