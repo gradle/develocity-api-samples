@@ -19,6 +19,7 @@ application {
 }
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(11))
     }
@@ -69,17 +70,19 @@ openApiGenerate {
     cleanupOutput.set(true)
     openapiNormalizer.set(mapOf("REF_AS_PARENT_IN_ALLOF" to "true"))
     // see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md for a description of each configuration option
-    configOptions.set(mapOf(
-        "library" to "apache-httpclient",
-        "dateLibrary" to "java8",
-        "hideGenerationTimestamp" to "true",
-        "openApiNullable" to "false",
-        "useBeanValidation" to "false",
-        "disallowAdditionalPropertiesIfNotPresent" to "false",
-        "additionalModelTypeAnnotations" to  "@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)",
-        "sourceFolder" to "",  // makes IDEs like IntelliJ more reliably interpret the class packages.
-        "containerDefaultToNull" to "true"
-    ))
+    configOptions.set(
+        mapOf(
+            "library" to "apache-httpclient",
+            "dateLibrary" to "java8",
+            "hideGenerationTimestamp" to "true",
+            "openApiNullable" to "false",
+            "useBeanValidation" to "false",
+            "disallowAdditionalPropertiesIfNotPresent" to "false",
+            "additionalModelTypeAnnotations" to "@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)",
+            "sourceFolder" to "",  // makes IDEs like IntelliJ more reliably interpret the class packages.
+            "containerDefaultToNull" to "true"
+        )
+    )
 }
 
 tasks.test {
@@ -87,11 +90,10 @@ tasks.test {
 
     apiSpecificationURL.orNull.let { systemProperties["ge.api.url"] = it }
 
-    java {
-        toolchain {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-        }
-    }
+
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    })
 }
 
 sourceSets {
