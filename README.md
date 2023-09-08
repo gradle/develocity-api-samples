@@ -17,7 +17,7 @@ You can use the `build/install/gradle-enterprise-api-samples/bin/gradle-enterpri
 
 ### Note on JDK11
 
-Due to a change in the [openapi generator project](https://github.com/gradle/gradle-enterprise-api-samples/pull/74), JDK 11 is required to build the samples. The clients still work using java 8
+Due to a change in the [openapi generator project](https://github.com/gradle/gradle-enterprise-api-samples/pull/74), JDK 11 is required to build the samples. The clients still work using Java 8
 ## How to run
 
 A Gradle Enterprise access key with the “Export build data via the API” permission is required.
