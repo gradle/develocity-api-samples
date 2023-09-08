@@ -70,19 +70,17 @@ openApiGenerate {
     cleanupOutput.set(true)
     openapiNormalizer.set(mapOf("REF_AS_PARENT_IN_ALLOF" to "true"))
     // see https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md for a description of each configuration option
-    configOptions.set(
-        mapOf(
-            "library" to "apache-httpclient",
-            "dateLibrary" to "java8",
-            "hideGenerationTimestamp" to "true",
-            "openApiNullable" to "false",
-            "useBeanValidation" to "false",
-            "disallowAdditionalPropertiesIfNotPresent" to "false",
-            "additionalModelTypeAnnotations" to "@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)",
-            "sourceFolder" to "",  // makes IDEs like IntelliJ more reliably interpret the class packages.
-            "containerDefaultToNull" to "true"
-        )
-    )
+    configOptions.set(mapOf(
+        "library" to "apache-httpclient",
+        "dateLibrary" to "java8",
+        "hideGenerationTimestamp" to "true",
+        "openApiNullable" to "false",
+        "useBeanValidation" to "false",
+        "disallowAdditionalPropertiesIfNotPresent" to "false",
+        "additionalModelTypeAnnotations" to  "@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)",
+        "sourceFolder" to "",  // makes IDEs like IntelliJ more reliably interpret the class packages.
+        "containerDefaultToNull" to "true"
+    ))
 }
 
 tasks.test {
