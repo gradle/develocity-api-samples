@@ -37,7 +37,7 @@ dependencies {
     implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
 
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 }
