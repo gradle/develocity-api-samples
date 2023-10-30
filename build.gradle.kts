@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.distsDirectory
-
 group = "com.gradle.enterprise.api"
 description = "Gradle Enterprise API sample"
 
