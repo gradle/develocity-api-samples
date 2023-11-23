@@ -2,7 +2,8 @@
 
 This repository demonstrates using the Gradle Enterprise API and generating client code from its OpenAPI specification.
 
-The sample observes builds being published to the given Gradle Enterprise instance in real-time and prints basic attributes along with build cache performance metrics.
+* The `builds-api` sample observes builds being published to the given Gradle Enterprise instance in real-time and prints basic attributes along with build cache performance metrics.
+* The `tests-api` sample determines previously stable test classes that recently has become unstable, and creates a report pointing to example builds published to the given Gradle Enterprise instance.
 
 ## How to build
 
@@ -12,8 +13,8 @@ Execute:
 $ ./gradlew install
 ```
 
-This builds and installs the program into `builds-api/build/install/gradle-enterprise-builds-api-sample`.
-You can use the `builds-api/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample` script to run the sample.
+This builds and installs the program into `builds-api/build/install/gradle-enterprise-builds-api-sample` and `tests-api/build/install/gradle-enterprise-tests-api-sample`.
+You can use either `builds-api/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample` or `tests-api/build/install/gradle-enterprise-tests-api-sample/bin/gradle-enterprise-tests-api-sample` scripts to run the sample of interest.
 
 ### Note on Java 11
 
@@ -33,7 +34,9 @@ To create an access key:
 
 The access key should be saved to a file, which will be supplied as a parameter to the program.
 
-Next, execute:
+### Builds API sample
+
+After provisioning the access key, execute:
 
 ```
 $ builds-api/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
@@ -52,9 +55,19 @@ The program will print `Processing builds ...`, then:
 
 To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
-## The sample code
+### Tests API sample
 
-The sample code can be found [here](https://github.com/gradle/gradle-enterprise-api-samples/blob/main/src/main/java/com/gradle/enterprise/api).
+After provisioning the access key, execute:
+
+```
+$ tests-api/build/install/gradle-enterprise-tests-api-sample/bin/gradle-enterprise-tests-api-sample
+```
+
+- `«serverUrl»`: The address of your Gradle Enterprise server (e.g. `https://ge.example.com`)
+- `«accessKeyFile»`: The path to the file containing the access key
+- `«TBD»` (optional): The name of the project to limit reporting to (reports all builds when omitted)
+
+To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
 ## Further documentation
 

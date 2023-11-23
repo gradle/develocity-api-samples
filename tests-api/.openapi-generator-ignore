@@ -1,0 +1,7 @@
+build/generated/tests-api/*
+build/generated/tests-api/.github/*
+build/generated/tests-api/api/*
+build/generated/tests-api/gradle/**/*
+build/generated/tests-api/docs/*
+build/generated/tests-api/src/main/AndroidManifest.xml
+build/generated/tests-api/src/test/**/*
