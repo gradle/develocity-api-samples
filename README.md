@@ -12,8 +12,8 @@ Execute:
 $ ./gradlew install
 ```
 
-This builds and installs the program into `builds/build/install/gradle-enterprise-builds-api-sample`.
-You can use the `builds/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample` script to run the sample.
+This builds and installs the program into `builds-api/build/install/gradle-enterprise-builds-api-sample`.
+You can use the `builds-api/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample` script to run the sample.
 
 ### Note on Java 11
 
@@ -36,7 +36,7 @@ The access key should be saved to a file, which will be supplied as a parameter 
 Next, execute:
 
 ```
-$ builds/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
+$ builds-api/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
 ```
 
 - `«serverUrl»`: The address of your Gradle Enterprise server (e.g. `https://ge.example.com`)

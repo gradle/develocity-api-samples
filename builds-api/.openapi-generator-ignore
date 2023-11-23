@@ -1,0 +1,7 @@
+build/generated/builds-api/*
+build/generated/builds-api/.github/*
+build/generated/builds-api/api/*
+build/generated/builds-api/gradle/**/*
+build/generated/builds-api/docs/*
+build/generated/builds-api/src/main/AndroidManifest.xml
+build/generated/builds-api/src/test/**/*
