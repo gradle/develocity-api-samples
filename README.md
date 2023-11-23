@@ -67,6 +67,12 @@ $ tests-api/build/install/gradle-enterprise-tests-api-sample/bin/gradle-enterpri
 - `«accessKeyFile»`: The path to the file containing the access key
 - `«TBD»` (optional): The name of the project to limit reporting to (reports all builds when omitted)
 
+The program will:
+1. Determine a set of test containers which were unstable (i.e. failed or flaky) in the past 7 days.
+2. Determine a set of test containers which became unstable since yesterday.
+3. Fetch additional data for such containers like builds and test tasks/goals where the container was unstable, as well as the list of unstable cases.
+4. Report the summary of findings to the standard output.
+
 To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
 ## Further documentation

@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.concurrent.Callable;
 
 @Command(
-    name = "gradle-enterprise-api-samples",
+    name = "gradle-enterprise-builds-api-sample",
     description = "A sample program that demonstrates using the Gradle Enterprise API to extract build data about build cache performance",
     synopsisHeading = "%n@|bold Usage:|@ ",
     optionListHeading = "%n@|bold Options:|@%n",
