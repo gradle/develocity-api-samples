@@ -9,7 +9,7 @@ The sample observes builds being published to the given Gradle Enterprise instan
 Execute:
 
 ```
-$ ./gradlew :builds:install
+$ ./gradlew install
 ```
 
 This builds and installs the program into `builds/build/install/gradle-enterprise-builds-api-sample`.
