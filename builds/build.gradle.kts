@@ -1,5 +1,5 @@
 group = "com.gradle.enterprise.api"
-description = "Gradle Enterprise API sample"
+description = "Gradle Enterprise Builds API sample"
 
 plugins {
     id("org.openapi.generator") version "7.1.0"
@@ -14,6 +14,7 @@ repositories {
 
 application {
     mainClass.set("com.gradle.enterprise.api.SampleMain")
+    applicationName = "gradle-enterprise-builds-api-samples"
 }
 
 java {

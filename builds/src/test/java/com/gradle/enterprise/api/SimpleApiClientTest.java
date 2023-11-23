@@ -5,7 +5,6 @@ import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.client.ServerConfiguration;
 import com.gradle.enterprise.api.model.Build;
 import com.gradle.enterprise.api.model.BuildsQuery;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.configuration.Configuration;
@@ -40,7 +39,7 @@ public class SimpleApiClientTest {
 
         ApiClient apiClient = new ApiClient();
         apiClient.setServers(Collections.singletonList(new ServerConfiguration(
-            "http://" + remoteAddress.getHostName() + ":" + remoteAddress.getPort(), "mockServer", Collections.emptyMap()
+                "http://" + remoteAddress.getHostName() + ":" + remoteAddress.getPort(), "mockServer", Collections.emptyMap()
         )));
         BuildsApi buildsApi = new BuildsApi(apiClient);
         apiClient.addDefaultHeader("Authorization", "Bearer XYZ");
