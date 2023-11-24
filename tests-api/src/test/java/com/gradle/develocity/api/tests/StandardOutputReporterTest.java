@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api.tests;
+package com.gradle.develocity.api.tests;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static com.gradle.enterprise.api.tests.SampleTestData.UNSTABLE_CONTAINER;
-import static com.gradle.enterprise.api.tests.SampleTestData.UNSTABLE_TEST;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,7 +32,7 @@ public class StandardOutputReporterTest {
     @DisplayName("prints expected report for a single unstable container")
     void testReport() {
         // given
-        TestContainerWithCases unstableContainer = new TestContainerWithCases(UNSTABLE_CONTAINER, singletonList(UNSTABLE_TEST));
+        TestContainerWithCases unstableContainer = new TestContainerWithCases(SampleTestData.UNSTABLE_CONTAINER, singletonList(SampleTestData.UNSTABLE_TEST));
         StandardOutputReporter reporter = new StandardOutputReporter("https://my.ge.com", singletonList(unstableContainer));
 
         // when

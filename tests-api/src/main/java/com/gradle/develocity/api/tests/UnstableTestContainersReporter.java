@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api.tests;
+package com.gradle.develocity.api.tests;
 
 import com.gradle.enterprise.api.model.TestOrContainer;
 import com.gradle.enterprise.api.model.TestOutcomeDistribution;

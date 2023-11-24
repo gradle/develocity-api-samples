@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api.tests;
+package com.gradle.develocity.api.tests;
 
 import com.gradle.enterprise.api.model.TestOrContainer;
 
@@ -87,7 +87,7 @@ class GitHubCliReporter implements UnstableTestContainersReporter {
         unstableBuildScanIds(container).forEach(buildScan -> sb.append("* ").append(serverUrl).append("/s/").append(buildScan).append("\n"));
         sb.append("\n");
 
-        sb.append("Powered by Gradle Enterprise API: https://docs.gradle.com/enterprise/api-manual/");
+        sb.append("Powered by Develocity API: https://docs.gradle.com/enterprise/api-manual/");
 
         return sb.toString();
     }

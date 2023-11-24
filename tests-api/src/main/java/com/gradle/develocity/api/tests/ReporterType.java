@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api.tests;
+package com.gradle.develocity.api.tests;
 
 public enum ReporterType {
     STANDARD_OUTPUT,

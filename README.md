@@ -13,8 +13,8 @@ Execute:
 $ ./gradlew install
 ```
 
-This builds and installs the program into `builds-api/build/install/gradle-enterprise-builds-api-sample` and `tests-api/build/install/gradle-enterprise-tests-api-sample`.
-You can use either `builds-api/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample` or `tests-api/build/install/gradle-enterprise-tests-api-sample/bin/gradle-enterprise-tests-api-sample` scripts to run the sample of interest.
+This builds and installs the program into `builds-api/build/install/gradle-enterprise-builds-api-sample` and `tests-api/build/install/develocity-tests-api-sample`.
+You can use either `builds-api/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample` or `tests-api/build/install/develocity-tests-api-sample/bin/develocity-tests-api-sample` scripts to run the sample of interest.
 
 ### Note on Java 11
 
@@ -60,7 +60,7 @@ To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 After provisioning the access key, execute:
 
 ```
-$ tests-api/build/install/gradle-enterprise-tests-api-sample/bin/gradle-enterprise-tests-api-sample --server-url=«serverUrl» --access-key-file=«accessKeyFile» [--project-name=«projectName»] [--reporter-type=<<reporterType>>] [--github-repo=<<githubRepo>>]
+$ tests-api/build/install/develocity-tests-api-sample/bin/develocity-tests-api-sample --server-url=«serverUrl» --access-key-file=«accessKeyFile» [--project-name=«projectName»] [--reporter-type=<<reporterType>>] [--github-repo=<<githubRepo>>]
 ```
 
 - `«serverUrl»`: The address of your Gradle Enterprise server (e.g. `https://ge.example.com`)

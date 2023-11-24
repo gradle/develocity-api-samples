@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api.tests;
+package com.gradle.develocity.api.tests;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +11,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
-import static com.gradle.enterprise.api.tests.SampleTestData.UNSTABLE_CONTAINER;
-import static com.gradle.enterprise.api.tests.SampleTestData.UNSTABLE_TEST;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -40,7 +38,7 @@ class GitHubCliReporterTest {
         GitHubCliReporter reporter = new GitHubCliReporter(
             "https://my.ge.com",
             "https://github.com/owner/repo",
-            singletonList(new TestContainerWithCases(UNSTABLE_CONTAINER, singletonList(UNSTABLE_TEST))),
+            singletonList(new TestContainerWithCases(SampleTestData.UNSTABLE_CONTAINER, singletonList(SampleTestData.UNSTABLE_TEST))),
             new Interval(
                 OffsetDateTime.of(2023, 11, 24, 14, 19, 51, 0, ZoneOffset.ofHours(2)).truncatedTo(ChronoUnit.SECONDS),
                 OffsetDateTime.of(2023, 11, 23, 14, 19, 51, 0, ZoneOffset.ofHours(2)).truncatedTo(ChronoUnit.SECONDS)
@@ -62,7 +60,7 @@ class GitHubCliReporterTest {
             "* https://my.ge.com/s/123\n" +
             "* https://my.ge.com/s/456\n" +
             "* https://my.ge.com/s/789\n\n" +
-            "Powered by Gradle Enterprise API: https://docs.gradle.com/enterprise/api-manual/",
+            "Powered by Develocity API: https://docs.gradle.com/enterprise/api-manual/",
             outputStream.toString()
         );
     }

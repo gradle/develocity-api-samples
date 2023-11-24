@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api.tests;
+package com.gradle.develocity.api.tests;
 
 import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiClient;
@@ -19,12 +19,11 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-import static com.gradle.enterprise.api.tests.BuildsQueryUtils.*;
 import static java.util.Objects.requireNonNull;
 
 @CommandLine.Command(
-    name = "gradle-enterprise-tests-api-sample",
-    description = "A sample program that demonstrates using the Gradle Enterprise Tests API to determine test classes that have recently become unstable",
+    name = "develocity-tests-api-sample",
+    description = "A sample program that demonstrates using the Develocity Tests API to determine test classes that have recently become unstable",
     synopsisHeading = "%n@|bold Usage:|@ ",
     optionListHeading = "%n@|bold Options:|@%n",
     commandListHeading = "%n@|bold Commands:|@%n",
@@ -47,7 +46,7 @@ public class TestsApiSampleMain implements Callable<Integer> {
 
     @CommandLine.Option(
         names = "--server-url",
-        description = "The address of the Gradle Enterprise server",
+        description = "The address of the Develocity server",
         required = true,
         order = 0
     )
@@ -134,7 +133,7 @@ public class TestsApiSampleMain implements Callable<Integer> {
 
     private Set<String> getUnstableTestContainersFromLastWeek(GradleEnterpriseApi api, OffsetDateTime now) throws ApiException {
         Interval lastWeek = new Interval(now.minusDays(8), now.minusDays(1));
-        String buildsQuery = projectName == null ? buildsBetween(lastWeek) : and(buildsBetween(lastWeek), projectNameEquals(projectName));
+        String buildsQuery = projectName == null ? BuildsQueryUtils.buildsBetween(lastWeek) : BuildsQueryUtils.and(BuildsQueryUtils.buildsBetween(lastWeek), BuildsQueryUtils.projectNameEquals(projectName));
 
         TestsResponse response = api.getTestContainers(new TestContainersQuery()
             .testOutcomes(UNSTABLE_OUTCOMES)
@@ -151,7 +150,7 @@ public class TestsApiSampleMain implements Callable<Integer> {
 
     private List<TestOrContainer> getNewUnstableTestContainers(GradleEnterpriseApi api, Set<String> unstableTestContainersFromLastWeek, OffsetDateTime now) throws ApiException {
         OffsetDateTime oneDayAgo = now.minusDays(1);
-        String buildsQuery = projectName == null ? buildsSince(oneDayAgo) : and(buildsSince(oneDayAgo), projectNameEquals(projectName));
+        String buildsQuery = projectName == null ? BuildsQueryUtils.buildsSince(oneDayAgo) : BuildsQueryUtils.and(BuildsQueryUtils.buildsSince(oneDayAgo), BuildsQueryUtils.projectNameEquals(projectName));
 
         List<TestOrContainer> unstableTestContainersFromYesterday = api.getTestContainers(new TestContainersQuery()
             .testOutcomes(UNSTABLE_OUTCOMES)
@@ -187,7 +186,7 @@ public class TestsApiSampleMain implements Callable<Integer> {
 
     private List<TestOrContainer> getUnstableTestCases(GradleEnterpriseApi api, TestOrContainer testContainer, OffsetDateTime now) throws ApiException {
         OffsetDateTime oneDayAgo = now.minusDays(1);
-        String buildsQuery = projectName == null ? buildsSince(oneDayAgo) : and(buildsSince(oneDayAgo), projectNameEquals(projectName));
+        String buildsQuery = projectName == null ? BuildsQueryUtils.buildsSince(oneDayAgo) : BuildsQueryUtils.and(BuildsQueryUtils.buildsSince(oneDayAgo), BuildsQueryUtils.projectNameEquals(projectName));
 
         return api.getTestCases(new TestCasesQuery()
                 .container(testContainer.getName())

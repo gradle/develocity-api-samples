@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api.tests;
+package com.gradle.develocity.api.tests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jackson.JacksonUtils;
@@ -22,7 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static com.gradle.enterprise.api.tests.SampleTestData.*;
+import static com.gradle.develocity.api.tests.SampleTestData.*;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

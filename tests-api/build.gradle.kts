@@ -1,10 +1,10 @@
-description = "Gradle Enterprise Tests API sample"
+description = "Develocity Tests API sample"
 
 plugins {
     id("api-sample-app")
 }
 
 application {
-    mainClass.set("com.gradle.enterprise.api.tests.TestsApiSampleMain")
-    applicationName = "gradle-enterprise-tests-api-sample"
+    mainClass.set("com.gradle.develocity.api.tests.TestsApiSampleMain")
+    applicationName = "develocity-tests-api-sample"
 }
