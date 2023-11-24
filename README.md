@@ -60,12 +60,12 @@ To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 After provisioning the access key, execute:
 
 ```
-$ tests-api/build/install/gradle-enterprise-tests-api-sample/bin/gradle-enterprise-tests-api-sample
+$ tests-api/build/install/gradle-enterprise-tests-api-sample/bin/gradle-enterprise-tests-api-sample --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
 ```
 
 - `«serverUrl»`: The address of your Gradle Enterprise server (e.g. `https://ge.example.com`)
 - `«accessKeyFile»`: The path to the file containing the access key
-- `«TBD»` (optional): The name of the project to limit reporting to (reports all builds when omitted)
+- `«projectName»` (optional): The name of the project to limit reporting to (reports unstable containers from all projects when omitted)
 
 The program will:
 1. Determine a set of test containers which were unstable (i.e. failed or flaky) in the past 7 days.

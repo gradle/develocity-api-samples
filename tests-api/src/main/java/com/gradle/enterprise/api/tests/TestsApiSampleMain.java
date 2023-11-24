@@ -19,8 +19,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-import static com.gradle.enterprise.api.tests.BuildsQueryUtils.buildsBetween;
-import static com.gradle.enterprise.api.tests.BuildsQueryUtils.buildsSince;
+import static com.gradle.enterprise.api.tests.BuildsQueryUtils.*;
 
 @CommandLine.Command(
     name = "gradle-enterprise-tests-api-sample",
@@ -61,6 +60,14 @@ public class TestsApiSampleMain implements Callable<Integer> {
     )
     String accessKeyFile;
 
+    @CommandLine.Option(
+        names = "--project-name",
+        description = "The name of the project to show the containers of (if omitted, containers from all builds are shown)",
+        defaultValue = CommandLine.Option.NULL_VALUE,
+        order = 2
+    )
+    String projectName;
+
     public static void main(String[] args) {
         System.exit(new CommandLine(new TestsApiSampleMain()).execute(args));
     }
@@ -99,10 +106,11 @@ public class TestsApiSampleMain implements Callable<Integer> {
     private Set<String> getUnstableTestContainersFromLastWeek(GradleEnterpriseApi api, OffsetDateTime now) throws ApiException {
         OffsetDateTime eightDaysAgo = now.minusDays(8);
         OffsetDateTime oneDayAgo = now.minusDays(1);
+        String buildsQuery = projectName == null ? buildsBetween(eightDaysAgo, oneDayAgo) : and(buildsBetween(eightDaysAgo, oneDayAgo), projectNameEquals(projectName));
 
         TestsResponse response = api.getTestContainers(new TestContainersQuery()
             .testOutcomes(UNSTABLE_OUTCOMES)
-            .query(buildsBetween(eightDaysAgo, oneDayAgo))
+            .query(buildsQuery)
         );
 
         Set<String> unstableContainerNames = response.getContent().stream()
@@ -115,11 +123,12 @@ public class TestsApiSampleMain implements Callable<Integer> {
 
     private List<TestOrContainer> getNewUnstableTestContainers(GradleEnterpriseApi api, Set<String> unstableTestContainersFromLastWeek, OffsetDateTime now) throws ApiException {
         OffsetDateTime oneDayAgo = now.minusDays(1);
+        String buildsQuery = projectName == null ? buildsSince(oneDayAgo) : and(buildsSince(oneDayAgo), projectNameEquals(projectName));
 
         List<TestOrContainer> unstableTestContainersFromYesterday = api.getTestContainers(new TestContainersQuery()
             .testOutcomes(UNSTABLE_OUTCOMES)
             .include(INCLUDE_BUILD_SCAN_IDS_AND_WORK_UNITS)
-            .query(buildsSince(oneDayAgo))
+            .query(buildsQuery)
         ).getContent();
 
         List<TestOrContainer> newUnstableTestContainers = unstableTestContainersFromYesterday.stream()
@@ -149,10 +158,13 @@ public class TestsApiSampleMain implements Callable<Integer> {
     }
 
     private List<TestOrContainer> getUnstableTestCases(GradleEnterpriseApi api, TestOrContainer testContainer, OffsetDateTime now) throws ApiException {
+        OffsetDateTime oneDayAgo = now.minusDays(1);
+        String buildsQuery = projectName == null ? buildsSince(oneDayAgo) : and(buildsSince(oneDayAgo), projectNameEquals(projectName));
+
         return api.getTestCases(new TestCasesQuery()
                 .container(testContainer.getName())
                 .testOutcomes(UNSTABLE_OUTCOMES)
-                .query(buildsSince(now.minusDays(1)))
+                .query(buildsQuery)
             ).getContent()
             .stream()
             .sorted(UNSTABLE_TEST_COMPARATOR)
