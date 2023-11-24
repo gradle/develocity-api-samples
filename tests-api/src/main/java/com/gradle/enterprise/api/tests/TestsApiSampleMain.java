@@ -6,6 +6,7 @@ import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.*;
 import picocli.CommandLine;
 
+import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import static com.gradle.enterprise.api.tests.BuildsQueryUtils.*;
+import static java.util.Objects.requireNonNull;
 
 @CommandLine.Command(
     name = "gradle-enterprise-tests-api-sample",
@@ -67,6 +69,22 @@ public class TestsApiSampleMain implements Callable<Integer> {
     )
     String projectName;
 
+    @CommandLine.Option(
+        names = "--reporter-type",
+        description = "The type of the reporter to use (if omitted, the report will be printed to the standard output)",
+        defaultValue = "STANDARD_OUTPUT",
+        order = 2
+    )
+    ReporterType reporterType;
+
+    @CommandLine.Option(
+        names = "--github-repo",
+        description = "The URL of the GitHub repository to create issues in, required if reporter type is GITHUB_CLI.",
+        order = 3
+    )
+    @Nullable
+    String githubRepoUrl;
+
     public static void main(String[] args) {
         System.exit(new CommandLine(new TestsApiSampleMain()).execute(args));
     }
@@ -85,7 +103,19 @@ public class TestsApiSampleMain implements Callable<Integer> {
         List<TestOrContainer> newUnstableTestContainers = getNewUnstableTestContainers(api, unstableTestContainersFromLastWeek, now);
         List<TestContainerWithCases> unstableTestContainersWithCases = getUnstableTestCases(api, newUnstableTestContainers, now);
 
-        new StandardOutputReporter(serverUrl, unstableTestContainersWithCases).report();
+        switch (reporterType) {
+            case STANDARD_OUTPUT:
+                new StandardOutputReporter(serverUrl, unstableTestContainersWithCases).report();
+                break;
+            case GITHUB_CLI:
+                new GitHubCliReporter(
+                    serverUrl,
+                    requireNonNull(githubRepoUrl, "GitHub URL is missing"),
+                    unstableTestContainersWithCases,
+                    new Interval(now.minusDays(1), now)
+                ).report();
+                break;
+        }
 
         return 0;
     }
@@ -103,9 +133,8 @@ public class TestsApiSampleMain implements Callable<Integer> {
     }
 
     private Set<String> getUnstableTestContainersFromLastWeek(GradleEnterpriseApi api, OffsetDateTime now) throws ApiException {
-        OffsetDateTime eightDaysAgo = now.minusDays(8);
-        OffsetDateTime oneDayAgo = now.minusDays(1);
-        String buildsQuery = projectName == null ? buildsBetween(eightDaysAgo, oneDayAgo) : and(buildsBetween(eightDaysAgo, oneDayAgo), projectNameEquals(projectName));
+        Interval lastWeek = new Interval(now.minusDays(8), now.minusDays(1));
+        String buildsQuery = projectName == null ? buildsBetween(lastWeek) : and(buildsBetween(lastWeek), projectNameEquals(projectName));
 
         TestsResponse response = api.getTestContainers(new TestContainersQuery()
             .testOutcomes(UNSTABLE_OUTCOMES)
@@ -115,7 +144,7 @@ public class TestsApiSampleMain implements Callable<Integer> {
         Set<String> unstableContainerNames = response.getContent().stream()
             .map(TestOrContainer::getName)
             .collect(Collectors.toSet());
-        System.out.printf("Found %d unstable test containers between %s and %s.%n", unstableContainerNames.size(), eightDaysAgo, oneDayAgo);
+        System.out.printf("Found %d unstable test containers between %s and %s.%n", unstableContainerNames.size(), lastWeek.getStart(), lastWeek.getEnd());
 
         return unstableContainerNames;
     }

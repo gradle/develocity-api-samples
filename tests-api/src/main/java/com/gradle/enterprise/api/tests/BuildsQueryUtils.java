@@ -10,8 +10,8 @@ final class BuildsQueryUtils {
         return String.format("project:%s", projectName);
     }
 
-    static String buildsBetween(OffsetDateTime startTimeInclusive, OffsetDateTime endTimeExclusive) {
-        return String.format("buildStartTime:[%s to %s]", startTimeInclusive, endTimeExclusive);
+    static String buildsBetween(Interval timeRange) {
+        return String.format("buildStartTime:[%s to %s]", timeRange.getStart(), timeRange.getEnd());
     }
 
     static String buildsSince(OffsetDateTime startTimeInclusive) {

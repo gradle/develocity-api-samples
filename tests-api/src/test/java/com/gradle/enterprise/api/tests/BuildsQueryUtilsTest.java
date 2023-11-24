@@ -22,11 +22,13 @@ public class BuildsQueryUtilsTest {
     @DisplayName("creates correct condition for closed buildStartTime range")
     void testBuildsBetweenCondition() {
         // given
-        OffsetDateTime start = dateTime(2023, 10, 24, 9, 15, 30);
-        OffsetDateTime end = dateTime(2023, 11, 25, 12, 30, 45);
+        Interval range = new Interval(
+            dateTime(2023, 10, 24, 9, 15, 30),
+            dateTime(2023, 11, 25, 12, 30, 45)
+        );
 
         // expect
-        assertEquals("buildStartTime:[2023-10-24T09:15:30+02:00 to 2023-11-25T12:30:45+02:00]", buildsBetween(start, end));
+        assertEquals("buildStartTime:[2023-10-24T09:15:30+02:00 to 2023-11-25T12:30:45+02:00]", buildsBetween(range));
     }
 
     @Test

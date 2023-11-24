@@ -4,7 +4,6 @@ import com.gradle.enterprise.api.model.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
@@ -23,7 +22,6 @@ final class StandardOutputReporter implements UnstableTestContainersReporter {
         unstableTestContainersWithCases.forEach(containerWithCases -> {
             TestOrContainer container = containerWithCases.getContainer();
             List<TestOrContainer> cases = containerWithCases.getCases();
-            BuildScanIdsByOutcome buildScanIdsByOutcome = requireNonNull(container.getBuildScanIdsByOutcome());
 
             System.out.println();
             System.out.println(toOutcomeDistribution(container));
@@ -32,19 +30,12 @@ final class StandardOutputReporter implements UnstableTestContainersReporter {
             System.out.println("\tWork units:");
             requireNonNull(container.getWorkUnits()).forEach(workUnit -> System.out.printf("\t\t%s%n", toDisplayName(workUnit)));
             System.out.println("\tExample Build Scans:");
-            unstableBuildScanIds(buildScanIdsByOutcome).forEach(buildScanId -> System.out.printf("\t\t%s/s/%s%n", serverUrl, buildScanId));
+            unstableBuildScanIds(container).forEach(buildScanId -> System.out.printf("\t\t%s/s/%s%n", serverUrl, buildScanId));
         });
     }
 
-    private Stream<String> unstableBuildScanIds(BuildScanIdsByOutcome buildScanIdsByOutcome) {
-        return Stream.concat(
-            buildScanIdsByOutcome.getFailed().stream(),
-            buildScanIdsByOutcome.getFlaky().stream()
-        );
-    }
-
-    private static String toOutcomeDistribution(TestOrContainer testOrContainer) {
-        return String.format("%s (🔴 failed: %d, 🟡 flaky: %d, 💯 total: %d)", testOrContainer.getName(), testOrContainer.getOutcomeDistribution().getFailed(), testOrContainer.getOutcomeDistribution().getFlaky(), testOrContainer.getOutcomeDistribution().getTotal());
+    private String toOutcomeDistribution(TestOrContainer testOrContainer) {
+        return String.format("%s (%s)", testOrContainer.getName(), outcomeDistributionToDisplayString(testOrContainer.getOutcomeDistribution()));
     }
 
     private static String toDisplayName(TestWorkUnit workUnit) {
