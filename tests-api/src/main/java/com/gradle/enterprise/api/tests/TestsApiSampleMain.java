@@ -4,7 +4,6 @@ import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiClient;
 import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.*;
-import com.gradle.enterprise.api.tests.report.StandardOutputReporter;
 import picocli.CommandLine;
 
 import java.io.BufferedReader;

@@ -79,8 +79,11 @@ openApiGenerate {
 tasks.test {
     useJUnitPlatform()
 
-    apiSpecificationURL.orNull.let { systemProperties["ge.api.url"] = it }
-
+    apiSpecificationFileGradleProperty
+        .map { "file:${it}" }
+        .orElse(apiSpecificationURL)
+        .orNull
+        .let { systemProperties["ge.api.url"] = it }
 
     javaLauncher.set(javaToolchains.launcherFor {
         languageVersion.set(JavaLanguageVersion.of(8))

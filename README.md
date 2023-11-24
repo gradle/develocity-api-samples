@@ -3,7 +3,7 @@
 This repository demonstrates using the Gradle Enterprise API and generating client code from its OpenAPI specification.
 
 * The `builds-api` sample observes builds being published to the given Gradle Enterprise instance in real-time and prints basic attributes along with build cache performance metrics.
-* The `tests-api` sample determines previously stable test classes that recently has become unstable, and creates a report pointing to example builds published to the given Gradle Enterprise instance.
+* The `tests-api` sample determines previously stable test classes that have recently become unstable, and creates a report pointing to example builds published to the given Gradle Enterprise instance.
 
 ## How to build
 

@@ -4,7 +4,7 @@ import com.gradle.enterprise.api.model.TestOrContainer;
 
 import java.util.List;
 
-public final class TestContainerWithCases {
+final class TestContainerWithCases {
 
     private final TestOrContainer container;
     private final List<TestOrContainer> cases;

@@ -1,7 +1,6 @@
-package com.gradle.enterprise.api.tests.report;
+package com.gradle.enterprise.api.tests;
 
 import com.gradle.enterprise.api.model.*;
-import com.gradle.enterprise.api.tests.TestContainerWithCases;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,12 +8,12 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-public final class StandardOutputReporter implements UnstableTestContainersReporter {
+final class StandardOutputReporter implements UnstableTestContainersReporter {
 
     private final String serverUrl;
     private final List<TestContainerWithCases> unstableTestContainersWithCases;
 
-    public StandardOutputReporter(String serverUrl, List<TestContainerWithCases> unstableTestContainersWithCases) {
+    StandardOutputReporter(String serverUrl, List<TestContainerWithCases> unstableTestContainersWithCases) {
         this.serverUrl = serverUrl;
         this.unstableTestContainersWithCases = unstableTestContainersWithCases;
     }
