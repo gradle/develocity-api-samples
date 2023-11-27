@@ -13,7 +13,7 @@ Execute:
 $ ./gradlew install
 ```
 
-This builds and installs the program into `builds-api/build/install/gradle-enterprise-builds-api-sample` and `tests-api/build/install/develocity-tests-api-sample`.
+This builds and installs the programs into `builds-api/build/install/gradle-enterprise-builds-api-sample` and `tests-api/build/install/develocity-tests-api-sample`.
 You can use either `builds-api/build/install/gradle-enterprise-builds-api-sample/bin/gradle-enterprise-builds-api-sample` or `tests-api/build/install/develocity-tests-api-sample/bin/develocity-tests-api-sample` scripts to run the sample of interest.
 
 ### Note on Java 11
@@ -66,12 +66,12 @@ $ tests-api/build/install/develocity-tests-api-sample/bin/develocity-tests-api-s
 - `«serverUrl»`: The address of your Gradle Enterprise server (e.g. `https://ge.example.com`)
 - `«accessKeyFile»`: The path to the file containing the access key
 - `«projectName»` (optional): The name of the project to limit reporting to (reports unstable containers from all projects when omitted)
-- `«reporterType»` (optional): The type of the report to be generated for discovered unstable containers (possible values: `STANDARD_OUTPUT` or `GITHUB_CLI`). `GITHUB_CLI` requires [GitHub CLI](https://cli.github.com/) to be installed on your machine. 
-- `«githubRepo»` (optional): The URL of the GitHub repo to create issues in. Required if reporter type is set to `GITHUB_CLI`.
+- `«reporterType»` (optional): The type of the report to be generated for discovered unstable containers (possible values: `STANDARD_OUTPUT` or `GITHUB_CLI`). The `GITHUB_CLI` type requires the [GitHub CLI](https://cli.github.com/) to be installed on your machine. 
+- `«githubRepo»` (optional): The URL of the GitHub repo to create issues in. Required if the reporter type is set to `GITHUB_CLI`.
 
 The program will:
 1. Determine a set of test containers which were unstable (i.e. failed or flaky) in the past 7 days.
-2. Determine a set of test containers which became unstable since yesterday.
+2. Determine a set of test containers which became unstable just yesterday.
 3. Fetch additional data for such containers like builds and test tasks/goals where the container was unstable, as well as the list of unstable cases.
 4. Report the summary of findings to the standard output or create issues in the GitHub repository of your choice.
 
