@@ -2,7 +2,7 @@ package com.gradle.develocity.api.tests;
 
 import java.time.OffsetDateTime;
 
-class Interval {
+final class Interval {
     private final OffsetDateTime start;
     private final OffsetDateTime end;
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 import static java.util.Collections.addAll;
 
-class GitHubCliReporter implements UnstableTestContainersReporter {
+final class GitHubCliReporter implements UnstableTestContainersReporter {
 
     private final String serverUrl;
     private final String githubRepoUrl;
