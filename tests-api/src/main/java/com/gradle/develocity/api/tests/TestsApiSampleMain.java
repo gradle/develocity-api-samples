@@ -104,12 +104,13 @@ public class TestsApiSampleMain implements Callable<Integer> {
 
         switch (reporterType) {
             case STANDARD_OUTPUT:
-                new StandardOutputReporter(serverUrl, unstableTestContainersWithCases).report();
+                new StandardOutputReporter(serverUrl, now, unstableTestContainersWithCases).report();
                 break;
             case GITHUB_CLI:
                 new GitHubCliReporter(
                     serverUrl,
                     requireNonNull(githubRepoUrl, "GitHub URL is missing"),
+                    now,
                     unstableTestContainersWithCases,
                     new Interval(now.minusDays(1), now)
                 ).report();
@@ -163,7 +164,7 @@ public class TestsApiSampleMain implements Callable<Integer> {
             .sorted(UNSTABLE_TEST_COMPARATOR)
             .collect(Collectors.toList());
 
-        System.out.printf("Found %d test classes that became since %s.%n", newUnstableTestContainers.size(), oneDayAgo);
+        System.out.printf("Found %d test classes that became unstable since %s.%n", newUnstableTestContainers.size(), oneDayAgo);
 
         return newUnstableTestContainers;
     }

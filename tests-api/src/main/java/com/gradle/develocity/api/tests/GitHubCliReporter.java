@@ -2,6 +2,7 @@ package com.gradle.develocity.api.tests;
 
 import com.gradle.enterprise.api.model.TestOrContainer;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ class GitHubCliReporter implements UnstableTestContainersReporter {
 
     private final String serverUrl;
     private final String githubRepoUrl;
+    private final OffsetDateTime now;
     private final List<TestContainerWithCases> unstableContainers;
     private final Interval buildTimeRange;
     private final boolean isDryRunMode;
@@ -18,21 +20,24 @@ class GitHubCliReporter implements UnstableTestContainersReporter {
     GitHubCliReporter(
         String serverUrl,
         String githubRepoUrl,
+        OffsetDateTime now,
         List<TestContainerWithCases> unstableContainers,
         Interval buildTimeRange
     ) {
-        this(serverUrl, githubRepoUrl, unstableContainers, buildTimeRange, false);
+        this(serverUrl, githubRepoUrl, now, unstableContainers, buildTimeRange, false);
     }
 
     GitHubCliReporter(
         String serverUrl,
         String githubRepoUrl,
+        OffsetDateTime now,
         List<TestContainerWithCases> unstableContainers,
         Interval buildTimeRange,
         boolean isDryRunMode
     ) {
         this.serverUrl = serverUrl;
         this.githubRepoUrl = githubRepoUrl;
+        this.now = now;
         this.unstableContainers = unstableContainers;
         this.buildTimeRange = buildTimeRange;
         this.isDryRunMode = isDryRunMode;
@@ -74,7 +79,7 @@ class GitHubCliReporter implements UnstableTestContainersReporter {
         StringBuilder sb = new StringBuilder();
         sb.append("## Summary\n");
         sb.append("Previously stable test container `").append(container.getName()).append("` became unstable between `").append(buildTimeRange.getStart()).append("` and `").append(buildTimeRange.getEnd()).append("`.\n");
-        sb.append("Outcome distribution: ").append(outcomeDistributionToDisplayString(container.getOutcomeDistribution())).append(".\n");
+        sb.append("[View in Tests dashboard.](").append(getTestsDashboardLink(serverUrl, now, container)).append(")\n");
         sb.append("\n");
 
         if (!cases.isEmpty()) {
@@ -85,7 +90,7 @@ class GitHubCliReporter implements UnstableTestContainersReporter {
 
         sb.append("### Example Build Scans\n");
         List<String> unstableBuildScanIds = unstableBuildScanIds(container);
-        unstableBuildScanIds.stream().limit(MAX_BUILD_SCAN_IDS_TO_SHOW).forEach(buildScan -> sb.append("* ").append(serverUrl).append("/s/").append(buildScan).append("\n"));
+        unstableBuildScanIds.stream().limit(MAX_BUILD_SCAN_IDS_TO_SHOW).forEach(buildScan -> sb.append("* ").append(getBuildScanLink(serverUrl, buildScan)).append("\n"));
         if (unstableBuildScanIds.size() > MAX_BUILD_SCAN_IDS_TO_SHOW) {
             sb.append("* +").append(unstableBuildScanIds.size() - MAX_BUILD_SCAN_IDS_TO_SHOW).append(" more\n");
         }

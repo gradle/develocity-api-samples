@@ -2,6 +2,7 @@ package com.gradle.develocity.api.tests;
 
 import com.gradle.enterprise.api.model.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,10 +11,12 @@ import static java.util.Objects.requireNonNull;
 final class StandardOutputReporter implements UnstableTestContainersReporter {
 
     private final String serverUrl;
+    private final OffsetDateTime now;
     private final List<TestContainerWithCases> unstableTestContainersWithCases;
 
-    StandardOutputReporter(String serverUrl, List<TestContainerWithCases> unstableTestContainersWithCases) {
+    StandardOutputReporter(String serverUrl, OffsetDateTime now, List<TestContainerWithCases> unstableTestContainersWithCases) {
         this.serverUrl = serverUrl;
+        this.now = now;
         this.unstableTestContainersWithCases = unstableTestContainersWithCases;
     }
 
@@ -25,13 +28,14 @@ final class StandardOutputReporter implements UnstableTestContainersReporter {
 
             System.out.println();
             System.out.println(toOutcomeDistribution(container));
+            System.out.printf("\tView in Tests dashboard: %s%n", getTestsDashboardLink(serverUrl, now, container));
             System.out.println("\tUnstable test cases:");
             cases.forEach(testCase -> System.out.printf("\t\t%s%n", toOutcomeDistribution(testCase)));
             System.out.println("\tWork units:");
             requireNonNull(container.getWorkUnits()).forEach(workUnit -> System.out.printf("\t\t%s%n", toDisplayName(workUnit)));
             System.out.println("\tExample Build Scans:");
             List<String> unstableBuildScanIds = unstableBuildScanIds(container);
-            unstableBuildScanIds.stream().limit(MAX_BUILD_SCAN_IDS_TO_SHOW).forEach(buildScan -> System.out.printf("\t\t%s/s/%s%n", serverUrl, buildScan));
+            unstableBuildScanIds.stream().limit(MAX_BUILD_SCAN_IDS_TO_SHOW).forEach(buildScan -> System.out.printf("\t\t%s%n", getBuildScanLink(serverUrl, buildScan)));
             if (unstableBuildScanIds.size() > MAX_BUILD_SCAN_IDS_TO_SHOW) {
                 System.out.printf("\t\t+%d more%n", unstableBuildScanIds.size() - MAX_BUILD_SCAN_IDS_TO_SHOW);
             }

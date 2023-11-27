@@ -19,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GitHubCliReporterTest {
 
+    private static final OffsetDateTime NOW = OffsetDateTime.of(2023, 11, 27, 9, 38, 39, 500, ZoneOffset.ofHours(2)).truncatedTo(ChronoUnit.SECONDS);
+
     private ByteArrayOutputStream outputStream;
     private PrintStream originalStdOut;
 
@@ -41,6 +43,7 @@ class GitHubCliReporterTest {
         GitHubCliReporter reporter = new GitHubCliReporter(
             "https://my.ge.com",
             "https://github.com/owner/repo",
+            NOW,
             singletonList(new TestContainerWithCases(SampleTestData.UNSTABLE_CONTAINER, singletonList(SampleTestData.UNSTABLE_TEST))),
             new Interval(
                 OffsetDateTime.of(2023, 11, 24, 14, 19, 51, 0, ZoneOffset.ofHours(2)).truncatedTo(ChronoUnit.SECONDS),
@@ -56,7 +59,7 @@ class GitHubCliReporterTest {
         assertEquals(
             "gh issue create --repo https://github.com/owner/repo --title Investigate unstable outcomes of `org.example.TestContainer` --body ## Summary\n" +
             "Previously stable test container `org.example.TestContainer` became unstable between `2023-11-24T14:19:51+02:00` and `2023-11-23T14:19:51+02:00`.\n" +
-            "Outcome distribution: 🔴 failed: 1, 🟡 flaky: 2, 💯 total: 5.\n\n" +
+            "[View in Tests dashboard.](https://my.ge.com/scans/tests?search.startTimeMax=1701070719000&search.startTimeMin=1700465919000&tests.container=org.example.TestContainer)\n\n" +
             "### Unstable cases\n" +
             "* `someTest` (🔴 failed: 2, 🟡 flaky: 4, 💯 total: 10)\n\n" +
             "### Example Build Scans\n" +
@@ -75,6 +78,7 @@ class GitHubCliReporterTest {
         GitHubCliReporter reporter = new GitHubCliReporter(
             "https://my.ge.com",
             "https://github.com/owner/repo",
+            NOW,
             singletonList(new TestContainerWithCases(
                 new TestOrContainer()
                     .name("org.example.TestContainer")
@@ -97,7 +101,7 @@ class GitHubCliReporterTest {
         assertEquals(
             "gh issue create --repo https://github.com/owner/repo --title Investigate unstable outcomes of `org.example.TestContainer` --body ## Summary\n" +
             "Previously stable test container `org.example.TestContainer` became unstable between `2023-11-24T14:19:51+02:00` and `2023-11-23T14:19:51+02:00`.\n" +
-            "Outcome distribution: 🔴 failed: 10, 🟡 flaky: 0, 💯 total: 10.\n\n" +
+            "[View in Tests dashboard.](https://my.ge.com/scans/tests?search.startTimeMax=1701070719000&search.startTimeMin=1700465919000&tests.container=org.example.TestContainer)\n\n" +
             "### Unstable cases\n" +
             "* `someTest` (🔴 failed: 2, 🟡 flaky: 4, 💯 total: 10)\n\n" +
             "### Example Build Scans\n" +

@@ -92,6 +92,9 @@ public class TestsApiSampleSmokeTest {
         assertEquals(0, exitCode);
         assertTrue(outputStream.toString().contains(
             "\norg.example.TestContainer (🔴 failed: 1, 🟡 flaky: 2, 💯 total: 5)\n" +
+            "\tView in Tests dashboard:"
+        ));
+        assertTrue(outputStream.toString().contains(
             "\tUnstable test cases:\n" +
             "\t\tsomeTest (🔴 failed: 2, 🟡 flaky: 4, 💯 total: 10)\n" +
             "\tWork units:\n" +

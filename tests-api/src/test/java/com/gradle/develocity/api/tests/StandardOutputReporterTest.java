@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 import static java.util.Collections.emptyList;
@@ -15,6 +18,8 @@ import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StandardOutputReporterTest {
+
+    private static final OffsetDateTime NOW = OffsetDateTime.of(2023, 11, 27, 9, 38, 39, 500, ZoneOffset.ofHours(2)).truncatedTo(ChronoUnit.SECONDS);
 
     private ByteArrayOutputStream outputStream;
     private PrintStream originalStdOut;
@@ -36,7 +41,7 @@ public class StandardOutputReporterTest {
     void testReport() {
         // given
         TestContainerWithCases unstableContainer = new TestContainerWithCases(SampleTestData.UNSTABLE_CONTAINER, singletonList(SampleTestData.UNSTABLE_TEST));
-        StandardOutputReporter reporter = new StandardOutputReporter("https://my.ge.com", singletonList(unstableContainer));
+        StandardOutputReporter reporter = new StandardOutputReporter("https://my.ge.com", NOW, singletonList(unstableContainer));
 
         // when
         reporter.report();
@@ -44,6 +49,7 @@ public class StandardOutputReporterTest {
         // then
         assertEquals(
             "\norg.example.TestContainer (🔴 failed: 1, 🟡 flaky: 2, 💯 total: 5)\n" +
+            "\tView in Tests dashboard: https://my.ge.com/scans/tests?search.startTimeMax=1701070719000&search.startTimeMin=1700465919000&tests.container=org.example.TestContainer\n" +
             "\tUnstable test cases:\n" +
             "\t\tsomeTest (🔴 failed: 2, 🟡 flaky: 4, 💯 total: 10)\n" +
             "\tWork units:\n" +
@@ -68,7 +74,7 @@ public class StandardOutputReporterTest {
                 .buildScanIdsByOutcome(new BuildScanIdsByOutcome().failed(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")).flaky(emptyList())),
             singletonList(SampleTestData.UNSTABLE_TEST)
         );
-        StandardOutputReporter reporter = new StandardOutputReporter("https://my.ge.com", singletonList(unstableContainer));
+        StandardOutputReporter reporter = new StandardOutputReporter("https://my.ge.com", NOW, singletonList(unstableContainer));
 
         // when
         reporter.report();
@@ -76,6 +82,7 @@ public class StandardOutputReporterTest {
         // then
         assertEquals(
             "\norg.example.TestContainer (🔴 failed: 10, 🟡 flaky: 0, 💯 total: 10)\n" +
+            "\tView in Tests dashboard: https://my.ge.com/scans/tests?search.startTimeMax=1701070719000&search.startTimeMin=1700465919000&tests.container=org.example.TestContainer\n" +
             "\tUnstable test cases:\n" +
             "\t\tsomeTest (🔴 failed: 2, 🟡 flaky: 4, 💯 total: 10)\n" +
             "\tWork units:\n" +
