@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api;
+package com.develocity.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

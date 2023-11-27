@@ -1,1 +1,1 @@
-rootProject.name = "gradle-enterprise-api-samples"
+rootProject.name = "develocity-api-samples"

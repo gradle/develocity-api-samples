@@ -1,7 +1,7 @@
-build/generated/gradle-enterprise-api-samples/*
-build/generated/gradle-enterprise-api-samples/.github/*
-build/generated/gradle-enterprise-api-samples/api/*
-build/generated/gradle-enterprise-api-samples/gradle/**/*
-build/generated/gradle-enterprise-api-samples/docs/*
-build/generated/gradle-enterprise-api-samples/src/main/AndroidManifest.xml
-build/generated/gradle-enterprise-api-samples/src/test/**/*
+build/generated/develocity-api-samples/*
+build/generated/develocity-api-samples/.github/*
+build/generated/develocity-api-samples/api/*
+build/generated/develocity-api-samples/gradle/**/*
+build/generated/develocity-api-samples/docs/*
+build/generated/develocity-api-samples/src/main/AndroidManifest.xml
+build/generated/develocity-api-samples/src/test/**/*

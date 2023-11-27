@@ -1,5 +1,5 @@
-group = "com.gradle.enterprise.api"
-description = "Gradle Enterprise API sample"
+group = "com.develocity.api"
+description = "Develocity API sample"
 
 plugins {
     id("org.openapi.generator") version "7.1.0"
@@ -13,7 +13,7 @@ repositories {
 }
 
 application {
-    mainClass.set("com.gradle.enterprise.api.SampleMain")
+    mainClass.set("com.develocity.api.SampleMain")
 }
 
 java {
@@ -84,7 +84,7 @@ openApiGenerate {
 tasks.test {
     useJUnitPlatform()
 
-    apiSpecificationURL.orNull.let { systemProperties["ge.api.url"] = it }
+    apiSpecificationURL.orNull.let { systemProperties["develocity.api.url"] = it }
 
 
     javaLauncher.set(javaToolchains.launcherFor {

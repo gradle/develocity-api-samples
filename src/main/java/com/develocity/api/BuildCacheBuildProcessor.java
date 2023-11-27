@@ -1,5 +1,6 @@
-package com.gradle.enterprise.api;
+package com.develocity.api;
 
+import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.Build;
 import com.gradle.enterprise.api.model.BuildQuery;
