@@ -1,5 +1,6 @@
-package com.gradle.enterprise.api;
+package com.develocity.api;
 
+import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiClient;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -12,8 +13,8 @@ import java.time.Instant;
 import java.util.concurrent.Callable;
 
 @Command(
-    name = "gradle-enterprise-api-samples",
-    description = "A sample program that demonstrates using the Gradle Enterprise API to extract build data about build cache performance",
+    name = "develocity-api-samples",
+    description = "A sample program that demonstrates using the Develocity API to extract build data about build cache performance",
     synopsisHeading = "%n@|bold Usage:|@ ",
     optionListHeading = "%n@|bold Options:|@%n",
     commandListHeading = "%n@|bold Commands:|@%n",
@@ -27,7 +28,7 @@ public final class SampleMain implements Callable<Integer> {
 
     @Option(
         names = "--server-url",
-        description = "The address of the Gradle Enterprise server",
+        description = "The address of the Develocity server",
         required = true,
         order = 0
     )

@@ -1,4 +1,4 @@
-package com.gradle.enterprise.api;
+package com.develocity.api;
 
 import com.gradle.enterprise.api.model.Build;
 
