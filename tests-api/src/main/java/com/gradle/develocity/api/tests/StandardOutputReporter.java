@@ -30,7 +30,11 @@ final class StandardOutputReporter implements UnstableTestContainersReporter {
             System.out.println("\tWork units:");
             requireNonNull(container.getWorkUnits()).forEach(workUnit -> System.out.printf("\t\t%s%n", toDisplayName(workUnit)));
             System.out.println("\tExample Build Scans:");
-            unstableBuildScanIds(container).forEach(buildScanId -> System.out.printf("\t\t%s/s/%s%n", serverUrl, buildScanId));
+            List<String> unstableBuildScanIds = unstableBuildScanIds(container);
+            unstableBuildScanIds.stream().limit(MAX_BUILD_SCAN_IDS_TO_SHOW).forEach(buildScan -> System.out.printf("\t\t%s/s/%s%n", serverUrl, buildScan));
+            if (unstableBuildScanIds.size() > MAX_BUILD_SCAN_IDS_TO_SHOW) {
+                System.out.printf("\t\t+%d more%n", unstableBuildScanIds.size() - MAX_BUILD_SCAN_IDS_TO_SHOW);
+            }
         });
     }
 

@@ -84,7 +84,12 @@ class GitHubCliReporter implements UnstableTestContainersReporter {
         }
 
         sb.append("### Example Build Scans\n");
-        unstableBuildScanIds(container).forEach(buildScan -> sb.append("* ").append(serverUrl).append("/s/").append(buildScan).append("\n"));
+        List<String> unstableBuildScanIds = unstableBuildScanIds(container);
+        unstableBuildScanIds.stream().limit(MAX_BUILD_SCAN_IDS_TO_SHOW).forEach(buildScan -> sb.append("* ").append(serverUrl).append("/s/").append(buildScan).append("\n"));
+        if (unstableBuildScanIds.size() > MAX_BUILD_SCAN_IDS_TO_SHOW) {
+            sb.append("* +").append(unstableBuildScanIds.size() - MAX_BUILD_SCAN_IDS_TO_SHOW).append(" more\n");
+        }
+
         sb.append("\n");
 
         sb.append("Powered by Develocity API: https://docs.gradle.com/enterprise/api-manual/");
