@@ -84,7 +84,11 @@ openApiGenerate {
 tasks.test {
     useJUnitPlatform()
 
-    apiSpecificationURL.orNull.let { systemProperties["develocity.api.url"] = it }
+    apiSpecificationFileGradleProperty
+        .map { "file:${it}" }
+        .orElse(apiSpecificationURL)
+        .orNull
+        .let { systemProperties["develocity.api.url"] = it }
 
 
     javaLauncher.set(javaToolchains.launcherFor {

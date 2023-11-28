@@ -1,12 +1,13 @@
 package com.develocity.api;
 
 import com.develocity.api.builds.BuildsApiSample;
+import com.develocity.api.tests.TestsApiSample;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 @Command(
     name = "develocity-api-samples",
-    description = "A sample program that demonstrates using the Develocity API to extract build data about build cache performance",
+    description = "A program that demonstrates using the Develocity API to extract build and tests data",
     synopsisHeading = "%n@|bold Usage:|@ ",
     optionListHeading = "%n@|bold Options:|@%n",
     commandListHeading = "%n@|bold Commands:|@%n",
@@ -15,7 +16,7 @@ import picocli.CommandLine.Command;
     synopsisSubcommandLabel = "COMMAND",
     usageHelpAutoWidth = true,
     usageHelpWidth = 120,
-    subcommands = {BuildsApiSample.class}
+    subcommands = {BuildsApiSample.class, TestsApiSample.class}
 )
 public final class SampleMain {
 
