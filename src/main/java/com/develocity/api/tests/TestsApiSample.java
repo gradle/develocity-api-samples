@@ -1,15 +1,15 @@
 package com.develocity.api.tests;
 
+import com.develocity.api.shared.GradleEnterpriseApiProvider;
 import com.gradle.enterprise.api.GradleEnterpriseApi;
-import com.gradle.enterprise.api.client.ApiClient;
 import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.*;
 import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Mixin;
+import picocli.CommandLine.Option;
 
 import javax.annotation.Nullable;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
-@CommandLine.Command(
+@Command(
     name = "tests",
     description = "A sample program that demonstrates using the Develocity Tests API to determine test classes that have recently become unstable",
     synopsisHeading = "%n@|bold Usage:|@ ",
@@ -44,31 +44,18 @@ public class TestsApiSample implements Callable<Integer> {
         .reversed()
         .thenComparing(TestOrContainer::getName);
 
-    @CommandLine.Option(
-        names = "--server-url",
-        description = "The address of the Develocity server",
-        required = true,
-        order = 0
-    )
-    String serverUrl;
+    @Mixin
+    GradleEnterpriseApiProvider apiProvider;
 
-    @CommandLine.Option(
-        names = "--access-key-file",
-        description = "The path to the file containing the access key",
-        required = true,
-        order = 1
-    )
-    String accessKeyFile;
-
-    @CommandLine.Option(
+    @Option(
         names = "--project-name",
         description = "The name of the project to show the containers of (if omitted, containers from all builds are shown)",
-        defaultValue = CommandLine.Option.NULL_VALUE,
+        defaultValue = Option.NULL_VALUE,
         order = 2
     )
     String projectName;
 
-    @CommandLine.Option(
+    @Option(
         names = "--reporter-type",
         description = "The type of the reporter to use (if omitted, the report will be printed to the standard output)",
         defaultValue = "STANDARD_OUTPUT",
@@ -76,7 +63,7 @@ public class TestsApiSample implements Callable<Integer> {
     )
     ReporterType reporterType;
 
-    @CommandLine.Option(
+    @Option(
         names = "--github-repo",
         description = "The URL of the GitHub repository to create issues in, required if reporter type is GITHUB_CLI.",
         order = 3
@@ -90,10 +77,7 @@ public class TestsApiSample implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        String serverUrl = this.serverUrl.endsWith("/")
-            ? this.serverUrl.substring(0, this.serverUrl.length() - 1)
-            : this.serverUrl;
-        GradleEnterpriseApi api = configureGradleEnterpriseApi(serverUrl);
+        GradleEnterpriseApi api = apiProvider.create();
 
         // builds query does not support a more fine-grained resolution
         OffsetDateTime now = OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS);
@@ -104,11 +88,11 @@ public class TestsApiSample implements Callable<Integer> {
 
         switch (reporterType) {
             case STANDARD_OUTPUT:
-                new StandardOutputReporter(serverUrl, now, unstableTestContainersWithCases).report();
+                new StandardOutputReporter(apiProvider.getServerUrl(), now, unstableTestContainersWithCases).report();
                 break;
             case GITHUB_CLI:
                 new GitHubCliReporter(
-                    serverUrl,
+                    apiProvider.getServerUrl(),
                     requireNonNull(githubRepoUrl, "GitHub URL is missing"),
                     now,
                     unstableTestContainersWithCases,
@@ -118,18 +102,6 @@ public class TestsApiSample implements Callable<Integer> {
         }
 
         return 0;
-    }
-
-    private GradleEnterpriseApi configureGradleEnterpriseApi(String serverUrl) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
-        String accessKey = reader.readLine();
-        reader.close();
-
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(serverUrl);
-        apiClient.setBearerToken(accessKey);
-
-        return new GradleEnterpriseApi(apiClient);
     }
 
     private Set<String> getUnstableTestContainersFromLastWeek(GradleEnterpriseApi api, OffsetDateTime now) throws ApiException {

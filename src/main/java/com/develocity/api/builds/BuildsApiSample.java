@@ -1,12 +1,11 @@
 package com.develocity.api.builds;
 
+import com.develocity.api.shared.GradleEnterpriseApiProvider;
 import com.gradle.enterprise.api.GradleEnterpriseApi;
-import com.gradle.enterprise.api.client.ApiClient;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Option;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Callable;
@@ -25,21 +24,8 @@ import java.util.concurrent.Callable;
 )
 public final class BuildsApiSample implements Callable<Integer> {
 
-    @Option(
-        names = "--server-url",
-        description = "The address of the Develocity server",
-        required = true,
-        order = 0
-    )
-    String serverUrl;
-
-    @Option(
-        names = "--access-key-file",
-        description = "The path to the file containing the access key",
-        required = true,
-        order = 1
-    )
-    String accessKeyFile;
+    @Mixin
+    GradleEnterpriseApiProvider apiProvider;
 
     @Option(
         names = "--project-name",
@@ -48,7 +34,6 @@ public final class BuildsApiSample implements Callable<Integer> {
         order = 2
     )
     String projectName;
-
 
     @Option(
         names = "--reverse",
@@ -76,19 +61,7 @@ public final class BuildsApiSample implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        String serverUrl = this.serverUrl.endsWith("/")
-            ? this.serverUrl.substring(0, this.serverUrl.length() - 1)
-            : this.serverUrl;
-
-        BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
-        String accessKey = reader.readLine();
-        reader.close();
-
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(serverUrl);
-        apiClient.setBearerToken(accessKey);
-
-        GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
+        GradleEnterpriseApi api = apiProvider.create();
         BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, projectName);
         BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor, reverse, maxBuilds, maxWaitSecs);
 

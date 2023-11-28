@@ -4,7 +4,7 @@ This repository demonstrates using the Develocity API and generating client code
 
 The sample contains two scenarios:
 * The `builds` scenario observes builds being published to the given Develocity instance in real-time and prints basic attributes along with build cache performance metrics.
-* The `tests` scenario determines previously stable test classes that have recently become unstable, and creates a report pointing to example builds published to the given Gradle Enterprise instance.
+* The `tests` scenario determines previously stable test classes that have recently become unstable, and creates a report pointing to example builds published to the given Develocity instance.
 
 ## How to build
 
@@ -64,7 +64,7 @@ After provisioning the access key, execute:
 $ build/install/develocity-api-samples/bin/develocity-api-samples tests --server-url=«serverUrl» --access-key-file=«accessKeyFile» [--project-name=«projectName»] [--reporter-type=<<reporterType>>] [--github-repo=<<githubRepo>>]
 ```
 
-- `«serverUrl»`: The address of your Gradle Enterprise server (e.g. `https://ge.example.com`)
+- `«serverUrl»`: The address of your Develocity server (e.g. `https://ge.example.com`)
 - `«accessKeyFile»`: The path to the file containing the access key
 - `«projectName»` (optional): The name of the project to limit reporting to (reports unstable containers from all projects when omitted)
 - `«reporterType»` (optional): The type of the report to be generated for discovered unstable containers (possible values: `STANDARD_OUTPUT` or `GITHUB_CLI`). The `GITHUB_CLI` type requires the [GitHub CLI](https://cli.github.com/) to be installed on your machine.
