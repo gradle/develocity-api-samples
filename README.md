@@ -2,7 +2,8 @@
 
 This repository demonstrates using the Develocity API and generating client code from its OpenAPI specification.
 
-The sample observes builds being published to the given Develocity instance in real-time and prints basic attributes along with build cache performance metrics.
+The sample contains two scenarios:
+* The `builds` scenario observes builds being published to the given Develocity instance in real-time and prints basic attributes along with build cache performance metrics.
 
 ## How to build
 
@@ -33,10 +34,12 @@ To create an access key:
 
 The access key should be saved to a file, which will be supplied as a parameter to the program.
 
-Next, execute:
+### Builds API sample
+
+After provisioning the access key, execute:
 
 ```
-$ build/install/develocity-api-samples/bin/develocity-api-samples --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
+$ build/install/develocity-api-samples/bin/develocity-api-samples builds --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
 ```
 
 - `«serverUrl»`: The address of your Develocity server (e.g. `https://develocity.example.com`)

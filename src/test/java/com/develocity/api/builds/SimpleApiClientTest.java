@@ -1,4 +1,4 @@
-package com.develocity.api;
+package com.develocity.api.builds;
 
 import com.gradle.enterprise.api.BuildsApi;
 import com.gradle.enterprise.api.client.ApiClient;

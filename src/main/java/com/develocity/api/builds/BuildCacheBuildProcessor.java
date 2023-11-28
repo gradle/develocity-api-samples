@@ -1,4 +1,4 @@
-package com.develocity.api;
+package com.develocity.api.builds;
 
 import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiException;
@@ -18,7 +18,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class BuildCacheBuildProcessor implements BuildProcessor {
+final class BuildCacheBuildProcessor implements BuildProcessor {
 
     private static final Set<GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum> GRADLE_CACHE_HIT_TYPES = new HashSet<>();
     private static final Set<MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum> MAVEN_CACHE_HIT_TYPES = new HashSet<>();
