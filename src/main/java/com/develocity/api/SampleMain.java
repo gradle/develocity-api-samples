@@ -4,6 +4,7 @@ import com.develocity.api.builds.BuildsApiSample;
 import com.develocity.api.tests.TestsApiSample;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.HelpCommand;
 
 @Command(
     name = "develocity-api-samples",
@@ -16,7 +17,7 @@ import picocli.CommandLine.Command;
     synopsisSubcommandLabel = "COMMAND",
     usageHelpAutoWidth = true,
     usageHelpWidth = 120,
-    subcommands = {BuildsApiSample.class, TestsApiSample.class}
+    subcommands = {BuildsApiSample.class, TestsApiSample.class, HelpCommand.class}
 )
 public final class SampleMain {
 
