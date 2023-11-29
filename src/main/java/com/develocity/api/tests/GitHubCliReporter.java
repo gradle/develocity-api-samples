@@ -68,7 +68,7 @@ final class GitHubCliReporter implements UnstableTestContainersReporter {
 
     }
 
-    private String toIssueTitle(TestOrContainer container) {
+    private static String toIssueTitle(TestOrContainer container) {
         return String.format("Investigate unstable outcomes of `%s`", container.getName());
     }
 
