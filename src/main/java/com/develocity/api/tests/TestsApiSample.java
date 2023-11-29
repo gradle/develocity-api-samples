@@ -99,6 +99,8 @@ public class TestsApiSample implements Callable<Integer> {
                     new Interval(now.minusDays(1), now)
                 ).report();
                 break;
+            default:
+                throw new IllegalArgumentException("Unstable containers reporter of type " + reporterType + " is not supported");
         }
 
         return 0;
