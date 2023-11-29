@@ -1,6 +1,6 @@
-package com.develocity.api.tests;
+package com.gradle.develocity.api.tests;
 
-import com.develocity.api.shared.GradleEnterpriseApiProvider;
+import com.gradle.develocity.api.shared.GradleEnterpriseApiProvider;
 import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.*;

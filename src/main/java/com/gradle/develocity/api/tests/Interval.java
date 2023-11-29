@@ -1,4 +1,4 @@
-package com.develocity.api.tests;
+package com.gradle.develocity.api.tests;
 
 import java.time.OffsetDateTime;
 

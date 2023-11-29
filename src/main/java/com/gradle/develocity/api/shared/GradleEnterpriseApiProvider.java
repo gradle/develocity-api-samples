@@ -1,4 +1,4 @@
-package com.develocity.api.shared;
+package com.gradle.develocity.api.shared;
 
 import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiClient;

@@ -1,7 +1,7 @@
-package com.develocity.api;
+package com.gradle.develocity.api;
 
-import com.develocity.api.builds.BuildsApiSample;
-import com.develocity.api.tests.TestsApiSample;
+import com.gradle.develocity.api.builds.BuildsApiSample;
+import com.gradle.develocity.api.tests.TestsApiSample;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.HelpCommand;

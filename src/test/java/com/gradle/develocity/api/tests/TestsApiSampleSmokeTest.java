@@ -1,4 +1,4 @@
-package com.develocity.api.tests;
+package com.gradle.develocity.api.tests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jackson.JacksonUtils;
@@ -22,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static com.develocity.api.tests.SampleTestData.*;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -69,19 +68,19 @@ public class TestsApiSampleSmokeTest {
         // unstable containers from last week
         mockServer.when(request(), once()).respond(response()
             .withStatusCode(200)
-            .withBody(content(ANOTHER_UNSTABLE_CONTAINER))
+            .withBody(content(SampleTestData.ANOTHER_UNSTABLE_CONTAINER))
         );
 
         // new unstable containers from yesterday
         mockServer.when(request(), once()).respond(response()
             .withStatusCode(200)
-            .withBody(content(UNSTABLE_CONTAINER))
+            .withBody(content(SampleTestData.UNSTABLE_CONTAINER))
         );
 
         // test cases belonging to new unstable containers
         mockServer.when(request(), once()).respond(response()
             .withStatusCode(200)
-            .withBody(content(UNSTABLE_TEST))
+            .withBody(content(SampleTestData.UNSTABLE_TEST))
         );
 
         // when

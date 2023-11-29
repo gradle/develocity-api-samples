@@ -1,4 +1,4 @@
-package com.develocity.api.tests;
+package com.gradle.develocity.api.tests;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
-import static com.develocity.api.tests.BuildsQueryUtils.*;
+import static com.gradle.develocity.api.tests.BuildsQueryUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BuildsQueryUtilsTest {
