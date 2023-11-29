@@ -3,6 +3,7 @@ package com.develocity.api.builds;
 import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.Build;
+import com.gradle.enterprise.api.model.BuildModelQuery;
 import com.gradle.enterprise.api.model.BuildQuery;
 import com.gradle.enterprise.api.model.GradleAttributes;
 import com.gradle.enterprise.api.model.GradleBuildCachePerformance;
@@ -57,9 +58,9 @@ final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private void processMavenBuild(Build build) throws ApiException {
-        MavenAttributes attributes = api.getMavenAttributes(build.getId(), new BuildQuery());
+        MavenAttributes attributes = api.getMavenAttributes(build.getId(), new BuildModelQuery());
         if (projectName == null || projectName.equals(attributes.getTopLevelProjectName())) {
-            MavenBuildCachePerformance model = api.getMavenBuildCachePerformance(build.getId(), new BuildQuery());
+            MavenBuildCachePerformance model = api.getMavenBuildCachePerformance(build.getId(), new BuildModelQuery());
             reportBuild(
                 build,
                 computeCacheHitPercentage(model),
@@ -72,9 +73,9 @@ final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private void processGradleBuild(Build build) throws ApiException {
-        GradleAttributes attributes = api.getGradleAttributes(build.getId(), new BuildQuery());
+        GradleAttributes attributes = api.getGradleAttributes(build.getId(), new BuildModelQuery());
         if (projectName == null || projectName.equals(attributes.getRootProjectName())) {
-            GradleBuildCachePerformance model = api.getGradleBuildCachePerformance(build.getId(), new BuildQuery());
+            GradleBuildCachePerformance model = api.getGradleBuildCachePerformance(build.getId(), new BuildModelQuery());
             reportBuild(
                 build,
                 computeCacheHitPercentage(model),
