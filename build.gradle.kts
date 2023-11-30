@@ -1,4 +1,4 @@
-group = "com.develocity.api"
+group = "com.gradle.develocity.api"
 description = "Develocity API sample"
 
 plugins {
@@ -13,7 +13,7 @@ repositories {
 }
 
 application {
-    mainClass.set("com.develocity.api.SampleMain")
+    mainClass.set("com.gradle.develocity.api.SampleMain")
 }
 
 java {
