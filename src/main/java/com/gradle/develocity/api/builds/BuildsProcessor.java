@@ -1,4 +1,4 @@
-package com.develocity.api;
+package com.gradle.develocity.api.builds;
 
 import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiException;
@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.function.Consumer;
 
-public final class BuildsProcessor {
+final class BuildsProcessor {
 
     private final GradleEnterpriseApi api;
     private final BuildProcessor buildProcessor;
@@ -17,7 +17,7 @@ public final class BuildsProcessor {
     private final int maxBuilds;
     private final int maxWaitSecs;
 
-    public BuildsProcessor(GradleEnterpriseApi api, BuildProcessor buildProcessor, boolean reverse, int maxBuilds, int maxWaitSecs) {
+    BuildsProcessor(GradleEnterpriseApi api, BuildProcessor buildProcessor, boolean reverse, int maxBuilds, int maxWaitSecs) {
         this.api = api;
         this.buildProcessor = buildProcessor;
         this.reverse = reverse;
@@ -25,7 +25,7 @@ public final class BuildsProcessor {
         this.maxWaitSecs = maxWaitSecs;
     }
 
-    public void process(Instant fromInstant) throws ApiException {
+    void process(Instant fromInstant) throws ApiException {
         Consumer<BuildsQuery> fromApplicator = buildsQuery -> buildsQuery.fromInstant(fromInstant.toEpochMilli());
 
         while (true) {

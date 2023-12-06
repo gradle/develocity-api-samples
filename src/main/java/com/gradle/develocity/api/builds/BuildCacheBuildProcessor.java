@@ -1,15 +1,8 @@
-package com.develocity.api;
+package com.gradle.develocity.api.builds;
 
 import com.gradle.enterprise.api.GradleEnterpriseApi;
 import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.model.Build;
-import com.gradle.enterprise.api.model.BuildQuery;
-import com.gradle.enterprise.api.model.GradleAttributes;
-import com.gradle.enterprise.api.model.GradleBuildCachePerformance;
-import com.gradle.enterprise.api.model.GradleBuildCachePerformanceTaskExecutionEntry;
-import com.gradle.enterprise.api.model.MavenAttributes;
-import com.gradle.enterprise.api.model.MavenBuildCachePerformance;
-import com.gradle.enterprise.api.model.MavenBuildCachePerformanceGoalExecutionEntry;
+import com.gradle.enterprise.api.model.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -18,7 +11,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class BuildCacheBuildProcessor implements BuildProcessor {
+final class BuildCacheBuildProcessor implements BuildProcessor {
 
     private static final Set<GradleBuildCachePerformanceTaskExecutionEntry.AvoidanceOutcomeEnum> GRADLE_CACHE_HIT_TYPES = new HashSet<>();
     private static final Set<MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum> MAVEN_CACHE_HIT_TYPES = new HashSet<>();
@@ -57,9 +50,9 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private void processMavenBuild(Build build) throws ApiException {
-        MavenAttributes attributes = api.getMavenAttributes(build.getId(), new BuildQuery());
+        MavenAttributes attributes = api.getMavenAttributes(build.getId(), new BuildModelQuery());
         if (projectName == null || projectName.equals(attributes.getTopLevelProjectName())) {
-            MavenBuildCachePerformance model = api.getMavenBuildCachePerformance(build.getId(), new BuildQuery());
+            MavenBuildCachePerformance model = api.getMavenBuildCachePerformance(build.getId(), new BuildModelQuery());
             reportBuild(
                 build,
                 computeCacheHitPercentage(model),
@@ -72,9 +65,9 @@ public final class BuildCacheBuildProcessor implements BuildProcessor {
     }
 
     private void processGradleBuild(Build build) throws ApiException {
-        GradleAttributes attributes = api.getGradleAttributes(build.getId(), new BuildQuery());
+        GradleAttributes attributes = api.getGradleAttributes(build.getId(), new BuildModelQuery());
         if (projectName == null || projectName.equals(attributes.getRootProjectName())) {
-            GradleBuildCachePerformance model = api.getGradleBuildCachePerformance(build.getId(), new BuildQuery());
+            GradleBuildCachePerformance model = api.getGradleBuildCachePerformance(build.getId(), new BuildModelQuery());
             reportBuild(
                 build,
                 computeCacheHitPercentage(model),

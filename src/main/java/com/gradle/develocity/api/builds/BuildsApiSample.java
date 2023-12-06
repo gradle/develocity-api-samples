@@ -1,19 +1,17 @@
-package com.develocity.api;
+package com.gradle.develocity.api.builds;
 
+import com.gradle.develocity.api.shared.GradleEnterpriseApiProvider;
 import com.gradle.enterprise.api.GradleEnterpriseApi;
-import com.gradle.enterprise.api.client.ApiClient;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Option;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Callable;
 
 @Command(
-    name = "develocity-api-samples",
+    name = "builds",
     description = "A sample program that demonstrates using the Develocity API to extract build data about build cache performance",
     synopsisHeading = "%n@|bold Usage:|@ ",
     optionListHeading = "%n@|bold Options:|@%n",
@@ -24,23 +22,10 @@ import java.util.concurrent.Callable;
     usageHelpAutoWidth = true,
     usageHelpWidth = 120
 )
-public final class SampleMain implements Callable<Integer> {
+public final class BuildsApiSample implements Callable<Integer> {
 
-    @Option(
-        names = "--server-url",
-        description = "The address of the Develocity server",
-        required = true,
-        order = 0
-    )
-    String serverUrl;
-
-    @Option(
-        names = "--access-key-file",
-        description = "The path to the file containing the access key",
-        required = true,
-        order = 1
-    )
-    String accessKeyFile;
+    @Mixin
+    GradleEnterpriseApiProvider apiProvider;
 
     @Option(
         names = "--project-name",
@@ -49,7 +34,6 @@ public final class SampleMain implements Callable<Integer> {
         order = 2
     )
     String projectName;
-
 
     @Option(
         names = "--reverse",
@@ -75,25 +59,9 @@ public final class SampleMain implements Callable<Integer> {
     )
     int maxWaitSecs;
 
-    public static void main(final String[] args) {
-        System.exit(new CommandLine(new SampleMain()).execute(args));
-    }
-
     @Override
     public Integer call() throws Exception {
-        String serverUrl = this.serverUrl.endsWith("/")
-            ? this.serverUrl.substring(0, this.serverUrl.length() - 1)
-            : this.serverUrl;
-
-        BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
-        String accessKey = reader.readLine();
-        reader.close();
-
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(serverUrl);
-        apiClient.setBearerToken(accessKey);
-
-        GradleEnterpriseApi api = new GradleEnterpriseApi(apiClient);
+        GradleEnterpriseApi api = apiProvider.create();
         BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, projectName);
         BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor, reverse, maxBuilds, maxWaitSecs);
 

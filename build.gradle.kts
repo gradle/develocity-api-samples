@@ -1,4 +1,4 @@
-group = "com.develocity.api"
+group = "com.gradle.develocity.api"
 description = "Develocity API sample"
 
 plugins {
@@ -13,7 +13,7 @@ repositories {
 }
 
 application {
-    mainClass.set("com.develocity.api.SampleMain")
+    mainClass.set("com.gradle.develocity.api.SampleMain")
 }
 
 java {
@@ -84,7 +84,11 @@ openApiGenerate {
 tasks.test {
     useJUnitPlatform()
 
-    apiSpecificationURL.orNull.let { systemProperties["develocity.api.url"] = it }
+    apiSpecificationFileGradleProperty
+        .map { "file:${it}" }
+        .orElse(apiSpecificationURL)
+        .orNull
+        .let { systemProperties["develocity.api.url"] = it }
 
 
     javaLauncher.set(javaToolchains.launcherFor {

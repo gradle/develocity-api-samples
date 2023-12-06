@@ -1,4 +1,4 @@
-package com.develocity.api;
+package com.gradle.develocity.api.builds;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,10 +9,10 @@ import java.io.UncheckedIOException;
 import java.util.Collections;
 import java.util.Optional;
 
-public final class ApiProblemParser {
+final class ApiProblemParser {
     private static final String CONTENT_TYPE = "application/problem+json";
 
-    public static Optional<ApiProblem> maybeParse(ApiException apiException, ObjectMapper objectMapper) {
+    static Optional<ApiProblem> maybeParse(ApiException apiException, ObjectMapper objectMapper) {
         return Optional.ofNullable(apiException.getResponseHeaders())
             .map(responseHeaders -> responseHeaders.get("content-type")).orElse(Collections.emptyList())
             .stream()

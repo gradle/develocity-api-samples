@@ -2,7 +2,9 @@
 
 This repository demonstrates using the Develocity API and generating client code from its OpenAPI specification.
 
-The sample observes builds being published to the given Develocity instance in real-time and prints basic attributes along with build cache performance metrics.
+The sample contains two scenarios:
+* The `builds` scenario observes builds being published to the given Develocity instance in real-time and prints basic attributes along with build cache performance metrics.
+* The `tests` scenario determines previously stable test classes that have recently become unstable, and creates a report pointing to example builds published to the given Develocity instance.
 
 ## How to build
 
@@ -33,10 +35,12 @@ To create an access key:
 
 The access key should be saved to a file, which will be supplied as a parameter to the program.
 
-Next, execute:
+### Builds API sample
+
+After provisioning the access key, execute:
 
 ```
-$ build/install/develocity-api-samples/bin/develocity-api-samples --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
+$ build/install/develocity-api-samples/bin/develocity-api-samples builds --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
 ```
 
 - `«serverUrl»`: The address of your Develocity server (e.g. `https://develocity.example.com`)
@@ -49,6 +53,28 @@ $ build/install/develocity-api-samples/bin/develocity-api-samples --server-url=�
 The program will print `Processing builds ...`, then:
 - when not using `--reverse` or using `--reverse=false`: indefinitely listen for any new builds being published to Develocity and print basic information about each build to the console.
 - when using `--reverse` or `--reverse=true`: listen for all builds that were already published to Develocity and print basic information about each build to the console.
+
+To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+
+### Tests API sample
+
+After provisioning the access key, execute:
+
+```
+$ build/install/develocity-api-samples/bin/develocity-api-samples tests --server-url=«serverUrl» --access-key-file=«accessKeyFile» [--project-name=«projectName»] [--reporter-type=<<reporterType>>] [--github-repo=<<githubRepo>>]
+```
+
+- `«serverUrl»`: The address of your Develocity server (e.g. `https://ge.example.com`)
+- `«accessKeyFile»`: The path to the file containing the access key
+- `«projectName»` (optional): The name of the project to limit reporting to (reports unstable containers from all projects when omitted)
+- `«reporterType»` (optional): The type of the report to be generated for discovered unstable containers (possible values: `STANDARD_OUTPUT` or `GITHUB_CLI`). The `GITHUB_CLI` type requires the [GitHub CLI](https://cli.github.com/) to be installed on your machine.
+- `«githubRepo»` (optional): The URL of the GitHub repo to create issues in. Required if the reporter type is set to `GITHUB_CLI`.
+
+The program will:
+1. Determine a set of test containers which were unstable (i.e. failed or flaky) in the past 7 days.
+2. Determine a set of test containers which became unstable just yesterday.
+3. Fetch additional data for such containers like builds and test tasks/goals where the container was unstable, as well as the list of unstable cases.
+4. Report the summary of findings to the standard output or create issues in the GitHub repository of your choice.
 
 To stop the program, use <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
