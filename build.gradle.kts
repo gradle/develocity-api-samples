@@ -34,6 +34,9 @@ dependencies {
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.3")
 
+    implementation("org.slf4j:slf4j-api:1.7.36")
+    runtimeOnly("org.slf4j:slf4j-simple:1.7.36")
+
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
