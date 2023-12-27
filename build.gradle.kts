@@ -2,7 +2,7 @@ group = "com.gradle.develocity.api"
 description = "Develocity API sample"
 
 plugins {
-    id("org.openapi.generator") version "7.1.0"
+    id("org.openapi.generator") version "7.2.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
     application
@@ -29,7 +29,7 @@ dependencies {
     // Required for OpenAPI Generator
     implementation("io.swagger:swagger-annotations:1.6.12")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
-    implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.16.0")
+    implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.16.1")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.3")
