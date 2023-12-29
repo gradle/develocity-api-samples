@@ -35,7 +35,7 @@ dependencies {
     implementation("org.apache.httpcomponents.client5:httpclient5:5.3")
 
     implementation("org.slf4j:slf4j-api:2.0.9")
-    runtimeOnly("org.slf4j:slf4j-simple:2.0.9")
+    runtimeOnly("org.slf4j:slf4j-simple:2.0.10")
 
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
