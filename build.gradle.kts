@@ -37,7 +37,7 @@ dependencies {
     runtimeOnly("org.slf4j:slf4j-simple:2.0.16")
 
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 }
