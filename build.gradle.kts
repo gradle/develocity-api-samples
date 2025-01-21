@@ -2,7 +2,7 @@ group = "com.gradle.develocity.api"
 description = "Develocity API sample"
 
 plugins {
-    id("org.openapi.generator") version "7.10.0"
+    id("org.openapi.generator") version "7.11.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
     application
