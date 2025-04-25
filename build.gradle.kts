@@ -32,7 +32,7 @@ dependencies {
     implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.18.3")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("org.apache.httpcomponents.client5:httpclient5:5.4.3")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.4.4")
     implementation("org.slf4j:slf4j-api:2.0.17")
     runtimeOnly("org.slf4j:slf4j-simple:2.0.17")
 
