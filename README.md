@@ -43,7 +43,7 @@ After provisioning the access key, execute:
 $ build/install/develocity-api-samples/bin/develocity-api-samples builds --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
 ```
 
-- `«serverUrl»`: The address of your Develocity server (e.g. `https://develocity.mycompany.com`)
+- `«serverUrl»`: The address of your Develocity server (e.g. `https://develocity.example.com`)
 - `«accessKeyFile»`: The path to the file containing the access key
 - `«projectName»` (optional): The name of the project to limit reporting to (reports all builds when omitted)
 - `«reverse»` (optional): A boolean indicating the time direction of the query. A value of true indicates a backward query. A value of false indicates a forward query (default: false).
@@ -64,7 +64,7 @@ After provisioning the access key, execute:
 $ build/install/develocity-api-samples/bin/develocity-api-samples tests --server-url=«serverUrl» --access-key-file=«accessKeyFile» [--project-name=«projectName»] [--reporter-type=<<reporterType>>] [--github-repo=<<githubRepo>>]
 ```
 
-- `«serverUrl»`: The address of your Develocity server (e.g. `https://develocity.mycompany.com`)
+- `«serverUrl»`: The address of your Develocity server (e.g. `https://develocity.example.com`)
 - `«accessKeyFile»`: The path to the file containing the access key
 - `«projectName»` (optional): The name of the project to limit reporting to (reports unstable containers from all projects when omitted)
 - `«reporterType»` (optional): The type of the report to be generated for discovered unstable containers (possible values: `STANDARD_OUTPUT` or `GITHUB_CLI`). The `GITHUB_CLI` type requires the [GitHub CLI](https://cli.github.com/) to be installed on your machine.
