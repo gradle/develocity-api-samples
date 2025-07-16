@@ -1,6 +1,6 @@
 package com.gradle.develocity.api.shared;
 
-import com.gradle.enterprise.api.GradleEnterpriseApi;
+import com.gradle.enterprise.api.DevelocityApi;
 import com.gradle.enterprise.api.client.ApiClient;
 import picocli.CommandLine;
 
@@ -25,7 +25,7 @@ public class GradleEnterpriseApiProvider {
     )
     String accessKeyFile;
 
-    public GradleEnterpriseApi create() throws IOException {
+    public DevelocityApi create() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(accessKeyFile));
         String accessKey = reader.readLine();
         reader.close();
@@ -34,7 +34,7 @@ public class GradleEnterpriseApiProvider {
         apiClient.setBasePath(getServerUrl());
         apiClient.setBearerToken(accessKey);
 
-        return new GradleEnterpriseApi(apiClient);
+        return new DevelocityApi(apiClient);
     }
 
     public String getServerUrl() {

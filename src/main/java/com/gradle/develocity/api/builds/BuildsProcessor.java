@@ -1,6 +1,6 @@
 package com.gradle.develocity.api.builds;
 
-import com.gradle.enterprise.api.GradleEnterpriseApi;
+import com.gradle.enterprise.api.DevelocityApi;
 import com.gradle.enterprise.api.client.ApiException;
 import com.gradle.enterprise.api.model.Build;
 import com.gradle.enterprise.api.model.BuildsQuery;
@@ -11,13 +11,13 @@ import java.util.function.Consumer;
 
 final class BuildsProcessor {
 
-    private final GradleEnterpriseApi api;
+    private final DevelocityApi api;
     private final BuildProcessor buildProcessor;
     private final boolean reverse;
     private final int maxBuilds;
     private final int maxWaitSecs;
 
-    BuildsProcessor(GradleEnterpriseApi api, BuildProcessor buildProcessor, boolean reverse, int maxBuilds, int maxWaitSecs) {
+    BuildsProcessor(DevelocityApi api, BuildProcessor buildProcessor, boolean reverse, int maxBuilds, int maxWaitSecs) {
         this.api = api;
         this.buildProcessor = buildProcessor;
         this.reverse = reverse;

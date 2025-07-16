@@ -1,7 +1,7 @@
 package com.gradle.develocity.api.builds;
 
 import com.gradle.develocity.api.shared.GradleEnterpriseApiProvider;
-import com.gradle.enterprise.api.GradleEnterpriseApi;
+import com.gradle.enterprise.api.DevelocityApi;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Option;
@@ -61,7 +61,7 @@ public final class BuildsApiSample implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        GradleEnterpriseApi api = apiProvider.create();
+        DevelocityApi api = apiProvider.create();
         BuildProcessor buildProcessor = new BuildCacheBuildProcessor(api, projectName);
         BuildsProcessor buildsProcessor = new BuildsProcessor(api, buildProcessor, reverse, maxBuilds, maxWaitSecs);
 
