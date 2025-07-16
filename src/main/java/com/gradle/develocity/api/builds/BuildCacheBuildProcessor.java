@@ -1,8 +1,15 @@
 package com.gradle.develocity.api.builds;
 
-import com.gradle.enterprise.api.GradleEnterpriseApi;
+import com.gradle.enterprise.api.DevelocityApi;
 import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.model.*;
+import com.gradle.enterprise.api.model.Build;
+import com.gradle.enterprise.api.model.BuildModelQuery;
+import com.gradle.enterprise.api.model.GradleAttributes;
+import com.gradle.enterprise.api.model.GradleBuildCachePerformance;
+import com.gradle.enterprise.api.model.GradleBuildCachePerformanceTaskExecutionEntry;
+import com.gradle.enterprise.api.model.MavenAttributes;
+import com.gradle.enterprise.api.model.MavenBuildCachePerformance;
+import com.gradle.enterprise.api.model.MavenBuildCachePerformanceGoalExecutionEntry;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,10 +30,10 @@ final class BuildCacheBuildProcessor implements BuildProcessor {
         MAVEN_CACHE_HIT_TYPES.add(MavenBuildCachePerformanceGoalExecutionEntry.AvoidanceOutcomeEnum.AVOIDED_FROM_REMOTE_CACHE);
     }
 
-    private final GradleEnterpriseApi api;
+    private final DevelocityApi api;
     private final String projectName;
 
-    BuildCacheBuildProcessor(GradleEnterpriseApi api, String projectName) {
+    BuildCacheBuildProcessor(DevelocityApi api, String projectName) {
         this.api = api;
         this.projectName = projectName;
     }
