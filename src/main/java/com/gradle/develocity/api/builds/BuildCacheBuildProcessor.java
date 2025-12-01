@@ -1,15 +1,15 @@
 package com.gradle.develocity.api.builds;
 
-import com.gradle.enterprise.api.DevelocityApi;
-import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.model.Build;
-import com.gradle.enterprise.api.model.BuildModelQuery;
-import com.gradle.enterprise.api.model.GradleAttributes;
-import com.gradle.enterprise.api.model.GradleBuildCachePerformance;
-import com.gradle.enterprise.api.model.GradleBuildCachePerformanceTaskExecutionEntry;
-import com.gradle.enterprise.api.model.MavenAttributes;
-import com.gradle.enterprise.api.model.MavenBuildCachePerformance;
-import com.gradle.enterprise.api.model.MavenBuildCachePerformanceGoalExecutionEntry;
+import com.gradle.develocity.api.DevelocityApi;
+import com.gradle.develocity.api.client.ApiException;
+import com.gradle.develocity.api.model.Build;
+import com.gradle.develocity.api.model.BuildModelQuery;
+import com.gradle.develocity.api.model.GradleAttributes;
+import com.gradle.develocity.api.model.GradleBuildCachePerformance;
+import com.gradle.develocity.api.model.GradleBuildCachePerformanceTaskExecutionEntry;
+import com.gradle.develocity.api.model.MavenAttributes;
+import com.gradle.develocity.api.model.MavenBuildCachePerformance;
+import com.gradle.develocity.api.model.MavenBuildCachePerformanceGoalExecutionEntry;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

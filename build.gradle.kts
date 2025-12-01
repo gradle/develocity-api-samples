@@ -43,10 +43,10 @@ dependencies {
 }
 
 val develocityVersion = "2025.3" // Must be later than 2022.1
-val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/enterprise/api-manual/ref/")
+val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/downloads/develocity-api-specification/")
 
 val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificationFile")
-val apiSpecificationURL = baseApiUrl.map { "${it}develocity-${develocityVersion}-api.yaml" }
+val apiSpecificationURL = baseApiUrl.map { "${it}develocity-api-specification-${develocityVersion}.yaml" }
 val apiSpecificationFile = apiSpecificationFileGradleProperty
     .map { s -> file(s) }
     .orElse(
@@ -56,7 +56,7 @@ val apiSpecificationFile = apiSpecificationFileGradleProperty
             })
     ).map { file -> file.absolutePath }
 
-val basePackageName = "com.gradle.enterprise.api"
+val basePackageName = "com.gradle.develocity.api"
 val modelPackageName = "$basePackageName.model"
 val invokerPackageName = "$basePackageName.client"
 openApiGenerate {

@@ -1,6 +1,6 @@
 package com.gradle.develocity.api.tests;
 
-import com.gradle.enterprise.api.model.*;
+import com.gradle.develocity.api.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

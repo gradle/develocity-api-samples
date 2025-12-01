@@ -1,6 +1,6 @@
 package com.gradle.develocity.api.tests;
 
-import com.gradle.enterprise.api.model.TestOrContainer;
+import com.gradle.develocity.api.model.TestOrContainer;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ final class GitHubCliReporter implements UnstableTestContainersReporter {
 
         sb.append("\n");
 
-        sb.append("Powered by Develocity API: https://docs.gradle.com/enterprise/api-manual/");
+        sb.append("Powered by Develocity API: https://docs.gradle.com/develocity/current/reference/api-manual/");
 
         return sb.toString();
     }

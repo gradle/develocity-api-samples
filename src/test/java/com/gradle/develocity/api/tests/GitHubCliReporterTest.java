@@ -1,6 +1,6 @@
 package com.gradle.develocity.api.tests;
 
-import com.gradle.enterprise.api.model.*;
+import com.gradle.develocity.api.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +66,7 @@ class GitHubCliReporterTest {
             "* https://my.ge.com/s/123\n" +
             "* https://my.ge.com/s/456\n" +
             "* https://my.ge.com/s/789\n\n" +
-            "Powered by Develocity API: https://docs.gradle.com/enterprise/api-manual/",
+            "Powered by Develocity API: https://docs.gradle.com/develocity/current/reference/api-manual/",
             outputStream.toString()
         );
     }
@@ -111,7 +111,7 @@ class GitHubCliReporterTest {
             "* https://my.ge.com/s/4\n" +
             "* https://my.ge.com/s/5\n" +
             "* +5 more\n\n" +
-            "Powered by Develocity API: https://docs.gradle.com/enterprise/api-manual/",
+            "Powered by Develocity API: https://docs.gradle.com/develocity/current/reference/api-manual/",
             outputStream.toString()
         );
     }

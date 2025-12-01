@@ -1,6 +1,6 @@
 package com.gradle.develocity.api.tests;
 
-import com.gradle.enterprise.api.model.*;
+import com.gradle.develocity.api.model.*;
 
 import java.time.OffsetDateTime;
 import java.util.List;

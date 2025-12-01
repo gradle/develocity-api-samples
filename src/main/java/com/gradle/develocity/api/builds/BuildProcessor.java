@@ -1,6 +1,6 @@
 package com.gradle.develocity.api.builds;
 
-import com.gradle.enterprise.api.model.Build;
+import com.gradle.develocity.api.model.Build;
 
 interface BuildProcessor {
 
