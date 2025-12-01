@@ -1,7 +1,7 @@
 package com.gradle.develocity.api.builds;
 
 import com.gradle.develocity.api.shared.GradleEnterpriseApiProvider;
-import com.gradle.enterprise.api.DevelocityApi;
+import com.gradle.develocity.api.DevelocityApi;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Option;

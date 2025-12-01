@@ -1,7 +1,7 @@
 package com.gradle.develocity.api.tests;
 
-import com.gradle.enterprise.api.model.TestOrContainer;
-import com.gradle.enterprise.api.model.TestOutcomeDistribution;
+import com.gradle.develocity.api.model.TestOrContainer;
+import com.gradle.develocity.api.model.TestOutcomeDistribution;
 
 import java.time.OffsetDateTime;
 import java.util.List;

@@ -2,7 +2,7 @@ package com.gradle.develocity.api.tests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jackson.JacksonUtils;
-import com.gradle.enterprise.api.model.TestOrContainer;
+import com.gradle.develocity.api.model.TestOrContainer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

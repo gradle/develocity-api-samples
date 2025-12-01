@@ -40,7 +40,7 @@ The access key should be saved to a file, which will be supplied as a parameter 
 After provisioning the access key, execute:
 
 ```
-$ build/install/develocity-api-samples/bin/develocity-api-samples builds --server-url=«serverUrl» --access-key-file=«accessKeyFile» --project-name=«projectName»
+$ build/install/develocity-api-samples/bin/develocity-api-samples builds --server-url=«serverUrl» --access-key-file=«accessKeyFile» [--project-name=«projectName»]
 ```
 
 - `«serverUrl»`: The address of your Develocity server (e.g. `https://develocity.example.com`)
@@ -84,7 +84,7 @@ The sample code can be found [here](https://github.com/gradle/develocity-api-sam
 
 ## Further documentation
 
-The Develocity API manual and reference documentation for each version of the API can be found [here](https://docs.gradle.com/enterprise/api-manual).
+The Develocity API manual and reference documentation for each version of the API can be found [here](https://docs.gradle.com/develocity/current/reference/api-manual/).
 
 ## License
 

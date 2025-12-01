@@ -2,8 +2,8 @@ package com.gradle.develocity.api.builds;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.model.ApiProblem;
+import com.gradle.develocity.api.client.ApiException;
+import com.gradle.develocity.api.model.ApiProblem;
 
 import java.io.UncheckedIOException;
 import java.util.Collections;

@@ -1,6 +1,6 @@
 package com.gradle.develocity.api.tests;
 
-import com.gradle.enterprise.api.model.TestOrContainer;
+import com.gradle.develocity.api.model.TestOrContainer;
 
 import java.util.List;
 

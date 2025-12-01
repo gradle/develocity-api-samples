@@ -1,11 +1,11 @@
 package com.gradle.develocity.api.builds;
 
-import com.gradle.enterprise.api.BuildsApi;
-import com.gradle.enterprise.api.client.ApiClient;
-import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.client.ServerConfiguration;
-import com.gradle.enterprise.api.model.Build;
-import com.gradle.enterprise.api.model.BuildsQuery;
+import com.gradle.develocity.api.BuildsApi;
+import com.gradle.develocity.api.client.ApiClient;
+import com.gradle.develocity.api.client.ApiException;
+import com.gradle.develocity.api.client.ServerConfiguration;
+import com.gradle.develocity.api.model.Build;
+import com.gradle.develocity.api.model.BuildsQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.configuration.Configuration;

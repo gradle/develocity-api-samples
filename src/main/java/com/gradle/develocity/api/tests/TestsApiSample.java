@@ -1,15 +1,15 @@
 package com.gradle.develocity.api.tests;
 
 import com.gradle.develocity.api.shared.GradleEnterpriseApiProvider;
-import com.gradle.enterprise.api.DevelocityApi;
-import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.model.TestCasesQuery;
-import com.gradle.enterprise.api.model.TestContainersQuery;
-import com.gradle.enterprise.api.model.TestIncludeFields;
-import com.gradle.enterprise.api.model.TestOrContainer;
-import com.gradle.enterprise.api.model.TestOutcome;
-import com.gradle.enterprise.api.model.TestOutcomeDistribution;
-import com.gradle.enterprise.api.model.TestsResponse;
+import com.gradle.develocity.api.DevelocityApi;
+import com.gradle.develocity.api.client.ApiException;
+import com.gradle.develocity.api.model.TestCasesQuery;
+import com.gradle.develocity.api.model.TestContainersQuery;
+import com.gradle.develocity.api.model.TestIncludeFields;
+import com.gradle.develocity.api.model.TestOrContainer;
+import com.gradle.develocity.api.model.TestOutcome;
+import com.gradle.develocity.api.model.TestOutcomeDistribution;
+import com.gradle.develocity.api.model.TestsResponse;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;

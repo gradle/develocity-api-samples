@@ -1,7 +1,7 @@
 package com.gradle.develocity.api.shared;
 
-import com.gradle.enterprise.api.DevelocityApi;
-import com.gradle.enterprise.api.client.ApiClient;
+import com.gradle.develocity.api.DevelocityApi;
+import com.gradle.develocity.api.client.ApiClient;
 import picocli.CommandLine;
 
 import java.io.BufferedReader;

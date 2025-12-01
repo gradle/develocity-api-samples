@@ -1,9 +1,9 @@
 package com.gradle.develocity.api.builds;
 
-import com.gradle.enterprise.api.DevelocityApi;
-import com.gradle.enterprise.api.client.ApiException;
-import com.gradle.enterprise.api.model.Build;
-import com.gradle.enterprise.api.model.BuildsQuery;
+import com.gradle.develocity.api.DevelocityApi;
+import com.gradle.develocity.api.client.ApiException;
+import com.gradle.develocity.api.model.Build;
+import com.gradle.develocity.api.model.BuildsQuery;
 
 import java.time.Instant;
 import java.util.List;
