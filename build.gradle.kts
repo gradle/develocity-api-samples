@@ -42,7 +42,7 @@ dependencies {
 
 }
 
-val develocityVersion = "2025.3" // Must be later than 2022.1
+val develocityVersion = "2025.4" // Must be later than 2022.1
 val baseApiUrl = providers.gradleProperty("apiManualUrl").orElse("https://docs.gradle.com/downloads/develocity-api-specification/")
 
 val apiSpecificationFileGradleProperty = providers.gradleProperty("apiSpecificationFile")
