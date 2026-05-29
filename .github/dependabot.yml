@@ -15,5 +15,9 @@ updates:
         patterns: 
           - "com.fasterxml.jackson*"      
       slf4j:
-        patterns: 
+        patterns:
           - "org.slf4j*"
+    ignore:
+      # mockserver 6+ requires Java 11+, which this project does not target
+      - dependency-name: "org.mock-server:mockserver-netty"
+        versions: [">=6"]
