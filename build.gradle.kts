@@ -2,7 +2,7 @@ group = "com.gradle.develocity.api"
 description = "Develocity API sample"
 
 plugins {
-    id("org.openapi.generator") version "7.20.0"
+    id("org.openapi.generator") version "7.24.0"
     kotlin("jvm") version embeddedKotlinVersion apply false
     `java-library`
     application
@@ -54,15 +54,15 @@ val apiSpecificationFile = apiSpecificationFileGradleProperty
             .convention(provider {
                 resources.text.fromUri(apiSpecificationURL).asFile()
             })
-    ).map { file -> file.absolutePath }
+    )
 
 val basePackageName = "com.gradle.develocity.api"
 val modelPackageName = "$basePackageName.model"
 val invokerPackageName = "$basePackageName.client"
 openApiGenerate {
     generatorName.set("java")
-    inputSpec.set(apiSpecificationFile)
-    outputDir.set(project.layout.buildDirectory.file("generated/$name").map { it.asFile.absolutePath })
+    inputSpec.set(project.layout.file(apiSpecificationFile))
+    outputDir.set(project.layout.buildDirectory.dir("generated/$name"))
     ignoreFileOverride.set(project.layout.projectDirectory.file(".openapi-generator-ignore").asFile.absolutePath)
     modelPackage.set(modelPackageName)
     apiPackage.set(basePackageName)
