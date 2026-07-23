@@ -84,7 +84,7 @@ The sample code can be found [here](https://github.com/gradle/develocity-api-sam
 
 ## Further documentation
 
-The Develocity API manual and reference documentation for each version of the API can be found [here](https://docs.gradle.com/develocity/current/reference/api-manual/).
+The Develocity API manual and reference documentation for each version of the API can be found [here](https://docs.develocity.ai/current/reference/api-manual/).
 
 ## License
 
