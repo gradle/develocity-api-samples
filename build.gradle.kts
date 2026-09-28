@@ -33,8 +33,8 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.22.3")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.6.4")
-    implementation("org.slf4j:slf4j-api:2.0.19")
-    runtimeOnly("org.slf4j:slf4j-simple:2.0.19")
+    implementation("org.slf4j:slf4j-api:2.0.20")
+    runtimeOnly("org.slf4j:slf4j-simple:2.0.20")
 
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.14.4")
